@@ -15,19 +15,19 @@ import javax.swing.JFrame;
 public class SysRate {
 
     public SysRate(){
-        home();
+        janela();
     }
     
-    public JFrame home(){
-        JFrame home = new JFrame("SysRate");
-        home.setSize(500,650);
-        home.getContentPane().setBackground(Color.orange);
-        home.setVisible(true);
-        home.setLocationRelativeTo(null);
-        home.setLayout(null);
-        home.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public JFrame janela(){
+        JFrame janela = new JFrame("SysRate");
+        janela.setSize(500,650);
+        janela.getContentPane().setBackground(Color.orange);
+        janela.setVisible(true);
+        janela.setLocationRelativeTo(null);
+        janela.setLayout(null);
+        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-        return home;
+        return janela;
     }
     
     public static void main(String[] args) {
