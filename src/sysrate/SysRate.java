@@ -30,7 +30,7 @@ public class SysRate {
         janela = new JFrame("SysRate");
         janela.setSize(1000,650);
         janela.getContentPane().setBackground(Color.orange);
-        janela.setVisible(true);
+        janela.setVisible(false);
         janela.setLocationRelativeTo(null);
         janela.setLayout(null);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -68,7 +68,8 @@ public class SysRate {
     
     public static void main(String[] args) {
         // TODO code application logic here
-        new SysRate();
+        //new SysRate();
+        new Cadastro();
     }
     
 }
