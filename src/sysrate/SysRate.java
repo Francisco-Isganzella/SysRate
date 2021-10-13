@@ -6,7 +6,11 @@
 package sysrate;
 
 import java.awt.Color;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -31,6 +35,33 @@ public class SysRate {
         janela.setLayout(null);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setResizable(false);
+        
+        JPanel cabecalho = new JPanel();
+        cabecalho.setLayout(null);
+        cabecalho.setBounds(0, 0, 1000, 30);
+        cabecalho.setBackground(Color.LIGHT_GRAY);
+        
+        JLabel nomeUsuario = new JLabel(/*if usuario tiver logado settext(nomeUser) else settext(null)*/"Nome Login");
+        nomeUsuario.setBounds(710, 05, 120, 20);
+        
+        JButton botaoLoginLogout = new JButton(/*if usuario tiver logado settext("Logout") else settext(Login) */ "Login");
+        botaoLoginLogout.setBounds(870, 05, 80, 20);
+        botaoLoginLogout.setBackground(Color.DARK_GRAY);
+        botaoLoginLogout.setForeground(Color.WHITE);
+        botaoLoginLogout.setBorder(null);
+        
+        ImageIcon imagemBotaoHome = new ImageIcon(getClass().getResource("botaoHome.png"));
+        
+        JButton botaoHome = new JButton(imagemBotaoHome);
+        botaoHome.setBounds(20, 0, 30, 30);
+        botaoHome.setBackground(Color.LIGHT_GRAY);
+        botaoHome.setBorder(null);
+        
+        cabecalho.add(nomeUsuario);
+        cabecalho.add(botaoLoginLogout);
+        cabecalho.add(botaoHome);
+        
+        janela.add(cabecalho);
         
         return janela;
     }
