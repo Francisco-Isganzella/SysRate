@@ -14,10 +14,11 @@ import javax.swing.JButton;
  */
 public class Button extends JButton{
 
-    public Button(int x, int y, int l, int a, String nome, Color cor) {
+    public Button(int x, int y, int l, int a, String nome, Color cor, Color fontColor) {
         setBounds(x, y, l, a);
         setText(nome);
         setBackground(cor);
+        setForeground(fontColor);
     }
     
 }

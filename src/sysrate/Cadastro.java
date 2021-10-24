@@ -52,7 +52,7 @@ public class Cadastro {
         panelAluno.add(fieldNomeAluno = new Field(105, 25, 180, 25));
         panelAluno.add(fieldMatricula = new Field(365, 25, 220, 25));
         panelAluno.add(fieldCurso = new Field(640, 25, 220, 25));
-        panelAluno.add(buttonCadastrarAluno = new Button(885,25,100,25, "Cadastrar", Color.GREEN));
+        panelAluno.add(buttonCadastrarAluno = new Button(885,25,100,25, "Cadastrar", Color.GREEN, Color.BLACK));
         
         // CONTINUAR A CRIAR A TABELA
         DefaultTableModel tabelaModelo = new DefaultTableModel();
