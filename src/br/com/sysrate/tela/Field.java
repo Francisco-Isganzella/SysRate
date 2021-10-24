@@ -3,21 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sysrate;
+package br.com.sysrate.tela;
 
-import java.awt.Color;
-import javax.swing.JButton;
+import javax.swing.JTextField;
 
 /**
  *
  * @author franc
  */
-public class Button extends JButton{
+public class Field extends JTextField {
 
-    public Button(int x, int y, int l, int a, String nome, Color cor) {
+    public Field(int x, int y, int l, int a) {
         setBounds(x, y, l, a);
-        setText(nome);
-        setBackground(cor);
     }
     
 }

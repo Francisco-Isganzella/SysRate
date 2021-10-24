@@ -3,8 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/migue/Documents/GitHub/SysRate/src/sysrate/LoginCadastro.java</file>
-            <file>file:/C:/Users/migue/Documents/GitHub/SysRate/src/sysrate/SysRate.java</file>
+            <file>file:/C:/Users/migue/Documents/GitHub/SysRate/src/br/com/sysrate/tela/SysRate.java</file>
+            <file>file:/C:/Users/migue/Documents/GitHub/SysRate/src/br/com/sysrate/tela/Cadastro.java</file>
+            <file>file:/C:/Users/migue/Documents/GitHub/SysRate/src/br/com/sysrate/tela/Button.java</file>
+            <file>file:/C:/Users/migue/Documents/GitHub/SysRate/src/br/com/sysrate/tela/Field.java</file>
+            <file>file:/C:/Users/migue/Documents/GitHub/SysRate/src/br/com/sysrate/tela/LoginCadastro.java</file>
         </group>
     </open-files>
 </project-private>

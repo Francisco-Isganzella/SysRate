@@ -3,21 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sysrate;
-
-import javax.swing.JFrame;
+package br.com.sysrate.dao;
 
 /**
  *
  * @author migue
  */
-public class LoginCadastro {
+public class NotasDao {
     
-    private JFrame janela;
-    
-    public LoginCadastro (){
-        
-        janela = new SysRate().janela();
-        
-    }
 }
