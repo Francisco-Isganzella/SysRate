@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.sysrate.tela;
+package sysrate;
 
-import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 /**
  *
- * @author franc
+ * @author migue
  */
-public class Field extends JTextField {
-
-    public Field(int x, int y, int l, int a) {
+public class PasswordField extends JPasswordField {
+    
+    public PasswordField(int x, int y, int l, int a) {
         setBounds(x, y, l, a);
     }
-    
 }
