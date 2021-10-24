@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sysrate;
+package br.com.sysrate.tela;
 
 import java.awt.Color;
 import javax.swing.ImageIcon;
@@ -70,6 +70,7 @@ public class SysRate {
         // TODO code application logic here
         //new SysRate();
         new LoginCadastro();
+        //new Cadastro();
     }
     
 }

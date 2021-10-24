@@ -3,17 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sysrate;
-
-import javax.swing.JPasswordField;
+package br.com.sysrate.dao;
 
 /**
  *
  * @author migue
  */
-public class PasswordField extends JPasswordField {
+public class NotasDao {
     
-    public PasswordField(int x, int y, int l, int a) {
-        setBounds(x, y, l, a);
-    }
 }
