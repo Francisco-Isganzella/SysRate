@@ -5,10 +5,44 @@
  */
 package br.com.sysrate.dao;
 
+import br.com.sysrate.entidade.Usuario;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLDataException;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /**
  *
  * @author migue
  */
 public class UsuarioDao {
+    protected Connection conexao;
+    protected PreparedStatement preparando;
+    protected ResultSet resulstet;
     
+    public void salvar(Usuario usuario) throws SQLDataException, SQLDataException, SQLException{
+        //String sql = "INSERT INTO Usuario (cursoID, matricula, nomeUsuario, senha, permissao, ativoOnline) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO Usuario (matricula, senha, permissao, ativoOnline) VALUES (?,?,?,?)";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            //preparando.setInt(1, usuario.getCursoID());
+            preparando.setString(1, usuario.getMatricula());
+            //preparando.setString(3, usuario.getNomeUsuario());
+            preparando.setString(2, usuario.getSenha());
+            preparando.setBoolean(3, usuario.getPermissao());
+            preparando.setBoolean(4, usuario.getAtivoOnline());
+            preparando.executeUpdate();
+            resulstet = preparando.getGeneratedKeys();
+            resulstet.next();
+            usuario.setUsuarioID(resulstet.getInt(1));
+            
+        } catch (Exception e) {
+            System.err.println("Ocorreu um erro ao salvar o usuario" + e.getMessage());
+        } finally{
+            FabricaConexao.fecharConexao(conexao, preparando, resulstet);
+        }
+    }
 }
