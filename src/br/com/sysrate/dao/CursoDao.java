@@ -29,6 +29,7 @@ public class CursoDao {
             preparando.setString(1, curso.getCurso());
             preparando.setBoolean(2, curso.getVisivel());
             preparando.executeUpdate();
+            preparando.getGeneratedKeys();
             resultSet.next();
             curso.setCursoID(resultSet.getInt(1));
             
@@ -40,19 +41,19 @@ public class CursoDao {
         }
     }
     
-    public Curso pesquisarPorNome(int id) throws SQLException{
+    public Curso pesquisarPorNome(String nome) throws SQLException{
         Curso curso = null;
         String consulta = "SELECT * FROM Curso c"
                 + "WHERE c.cursoID = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
-            preparando.setInt(1, id);
+            preparando.setString(1, nome);
             resultSet = preparando.executeQuery();
             
             if (resultSet.next()) {
                 curso = new Curso();
-                curso.setCursoID(resultSet.getInt(id));
+                curso.setCursoID(resultSet.getInt("cursoID"));
                 curso.setVisivel(resultSet.getBoolean("visivel"));
                 curso.setCurso(resultSet.getString("curso"));
             }

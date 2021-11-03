@@ -3,11 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/franc/Documents/NetBeansProjects/SysRate/src/br/com/sysrate/tela/Cadastro.java</file>
-            <file>file:/C:/Users/franc/Documents/NetBeansProjects/SysRate/src/br/com/sysrate/entidade/Usuario.java</file>
-            <file>file:/C:/Users/franc/Documents/NetBeansProjects/SysRate/src/br/com/sysrate/dao/UsuarioDao.java</file>
-            <file>file:/C:/Users/franc/Documents/NetBeansProjects/SysRate/src/br/com/sysrate/entidade/Curso.java</file>
-            <file>file:/C:/Users/franc/Documents/NetBeansProjects/SysRate/src/br/com/sysrate/dao/CursoDao.java</file>
+            <file>file:/C:/Users/franc/Documents/NetBeansProjects/SysRate/src/br/com/sysrate/tela/SysRate.java</file>
         </group>
     </open-files>
 </project-private>

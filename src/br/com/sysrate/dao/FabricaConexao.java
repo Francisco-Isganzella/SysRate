@@ -27,6 +27,7 @@ public class FabricaConexao {
             System.err.println("Erro ao conectar com o banco" + e.getMessage());
         }
         return driver;
+        
     }
     public static void fecharConexao(Connection conn, Statement psmt, ResultSet rs) throws SQLException{
         rs.close();
