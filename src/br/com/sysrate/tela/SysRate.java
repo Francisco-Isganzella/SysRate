@@ -80,7 +80,8 @@ public class SysRate {
         // TODO code application logic here
         //new SysRate();
         //new LoginCadastro();
-        new Cadastro();
+        //new Cadastro();
+        
     }
     
 }
