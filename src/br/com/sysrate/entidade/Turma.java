@@ -9,13 +9,15 @@ package br.com.sysrate.entidade;
  *
  * @author migue
  */
-public class Turma {
+public class Turma extends Curso{
     private Integer turmaID;
     private Integer disciplinaID;
     private Integer professorID;
     private Integer cursoID;
     private String turma;
     private Boolean visivel;
+    
+    
 
     /**
      * @return the turmaID
@@ -100,4 +102,6 @@ public class Turma {
     public void setVisivel(Boolean visivel) {
         this.visivel = visivel;
     }
+
+    
 }

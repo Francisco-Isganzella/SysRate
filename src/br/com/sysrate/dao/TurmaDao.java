@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -32,15 +34,87 @@ public class TurmaDao {
             preparando.setString(4, turma.getTurma());
             preparando.setBoolean(5, turma.getVisivel());
             preparando.executeUpdate();
-            resultSet.next();
-            turma.setCursoID(resultSet.getInt(1));
+            //resultSet.next();
+            //turma.setCursoID(resultSet.getInt(1));
             
             
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.err.println("Ocorreu um erro ao salvar a turma:" + e.getMessage());
         } finally {
-            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+            FabricaConexao.fecharConexao(conexao, preparando);
         }
     }
     
+    public List<Turma> listarTurma() throws SQLException{
+        List<Turma> listaTurma = new ArrayList<Turma>();
+        String consulta = "SELECT * FROM turma";
+        
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            resultSet = preparando.executeQuery();
+            while (resultSet.next()) {                
+                Turma t = new Turma();
+                t.setTurmaID(resultSet.getInt("turmaID"));
+                t.setDisciplinaID(resultSet.getInt("disciplinaID"));
+                t.setProfessorID(resultSet.getInt("professorID"));
+                t.setCursoID(resultSet.getInt("cursoID"));
+                t.setTurma(resultSet.getString("turma"));
+                t.setVisivel(resultSet.getBoolean("visivel"));
+                listaTurma.add(t);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar os turmas" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return listaTurma;
+    }
+    
+    public List<Turma> listarTurmaInner() throws SQLException{
+        List<Turma> listaTurma = new ArrayList();
+        
+        String consulta = "SELECT * FROM turma t INNER JOIN professor p on p.professorID = t.professorID INNER JOIN disciplina d on d.disciplinaID = t.disciplinaID INNER JOIN curso c on c.cursoID = t.cursoID";
+        
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            resultSet = preparando.executeQuery();
+            while (resultSet.next()) {
+                Turma t = new Turma();
+                t.setTurmaID(resultSet.getInt("turmaID"));
+                t.setNomeProfessor(resultSet.getString("p.nomeProfessor"));
+                t.setTurma(resultSet.getString("turma"));
+                t.setDisciplina(resultSet.getString("d.disciplina"));
+                t.setCurso(resultSet.getString("c.curso"));
+                t.setVisivel(resultSet.getBoolean("visivel"));
+                
+                listaTurma.add(t);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar as turmas " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return listaTurma;
+    }
+    
+    public void alterar(Turma turma) throws SQLException {
+        String sql = "UPDATE Turma SET visivel = ?, turma = ?, disciplinaID = ?, cursoID = ? WHERE turmaID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(sql);
+            preparando.setBoolean(1, turma.getVisivel());
+            preparando.setString(2, turma.getTurma());
+            preparando.setInt(5, turma.getTurmaID());
+            preparando.setInt(3, turma.getDisciplinaID());
+            preparando.setInt(4, turma.getCursoID());
+            preparando.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erro ao excluir turma\n" + e.getMessage());
+        } 
+        finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+    }
 }

@@ -9,7 +9,7 @@ package br.com.sysrate.entidade;
  *
  * @author migue
  */
-public class Usuario {
+public class Usuario extends Curso{
     private Integer usuarioID;
     private Integer cursoID;
     private String matricula;
@@ -17,6 +17,8 @@ public class Usuario {
     private String senha;
     private Boolean permissao;
     private Boolean ativoOnline;
+    
+    
 
     /**
      * @return the usuarioID
@@ -115,4 +117,6 @@ public class Usuario {
     public void setAtivoOnline(Boolean ativoOnline) {
         this.ativoOnline = ativoOnline;
     }
+
+    
 }

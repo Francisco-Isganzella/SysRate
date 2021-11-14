@@ -8,6 +8,7 @@ package br.com.sysrate.tela;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -76,11 +77,11 @@ public class SysRate {
         return janela;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException{
         // TODO code application logic here
         //new SysRate();
         //new LoginCadastro();
-        //new Cadastro();
+        new Cadastro();
         
     }
     

@@ -9,7 +9,7 @@ package br.com.sysrate.entidade;
  *
  * @author migue
  */
-public class Curso {
+public class Curso extends Disciplina{
     private Integer cursoID;
     private String curso;
     private Boolean visivel;

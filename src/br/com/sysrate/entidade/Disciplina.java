@@ -9,7 +9,7 @@ package br.com.sysrate.entidade;
  *
  * @author migue
  */
-public class Disciplina {
+public class Disciplina extends Professor{
     private Integer disciplinaID;
     private String disciplina;
     private Boolean visivel;
