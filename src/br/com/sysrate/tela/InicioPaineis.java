@@ -129,7 +129,7 @@ public class InicioPaineis {
                 setPreferredSize(new Dimension(900, 120));
                 setLayout(null);
                 
-                ImageIcon imagemProf = new ImageIcon(getClass().getResource("fotoPerfil.png"));
+                ImageIcon imagemProf = new ImageIcon(getClass().getResource("icons_prof.png"));
                 JLabel imagemP = new JLabel(imagemProf);
                 imagemP.setBounds(20, 20, 100, 100);
                 imagemP.setBackground(Color.BLACK);
