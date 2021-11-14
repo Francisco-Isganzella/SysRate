@@ -982,12 +982,11 @@ public class Cadastro {
                 lista_usuario = uDaoL.listarUsuarioInner();
                 if (!lista_usuario.isEmpty()) {
                     for (Usuario u : lista_usuario) {
-                        if (u.getPermissao() == false) {
                             if (u.getVisivel() == true) {
                                 tabelaModelo.addRow(new Object[]{u.getUsuarioID(), u.getNomeUsuario(),
                                     u.getMatricula(), u.getCurso()});
                             }
-                        }
+                        
                     }
                 }       break;
             default:
