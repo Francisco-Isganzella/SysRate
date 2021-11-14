@@ -69,9 +69,9 @@ public class SysRate {
     public static void main(String[] args) {
         // TODO code application logic here
         //new SysRate();
-        //new LoginCadastro();
+        new LoginCadastro();
         //new Cadastro();
-        new PerfilResumo();
+        //new PerfilResumo();
     }
     
 }
