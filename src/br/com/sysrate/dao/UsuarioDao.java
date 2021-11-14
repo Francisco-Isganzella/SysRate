@@ -135,7 +135,7 @@ public class UsuarioDao {
                 u.setNomeUsuario(resultSet.getString("nomeUsuario"));
                 u.setMatricula(resultSet.getString("matricula"));
                 u.setCurso(resultSet.getString("c.curso"));
-                u.setVisivel(resultSet.getBoolean("visivel"));
+                u.setVisivelCurso(resultSet.getBoolean("visivelCurso"));
                 
                 listaUsuario.add(u);
             }

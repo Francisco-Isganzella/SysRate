@@ -12,7 +12,7 @@ package br.com.sysrate.entidade;
 public class Curso extends Disciplina{
     private Integer cursoID;
     private String curso;
-    private Boolean visivel;
+    private Boolean visivelCurso;
  
     /**
      * @return the cursoID
@@ -43,16 +43,16 @@ public class Curso extends Disciplina{
     }
 
     /**
-     * @return the visivel
+     * @return the visivelCurso
      */
-    public Boolean getVisivel() {
-        return visivel;
+    public Boolean getVisivelCurso() {
+        return visivelCurso;
     }
 
     /**
-     * @param visivel the visivel to set
+     * @param visivelCurso the visivelCurso to set
      */
-    public void setVisivel(Boolean visivel) {
-        this.visivel = visivel;
+    public void setVisivelCurso(Boolean visivelCurso) {
+        this.visivelCurso = visivelCurso;
     }
 }

@@ -5,6 +5,10 @@
  */
 package br.com.sysrate.tela;
 
+import br.com.sysrate.dao.UsuarioDao;
+import br.com.sysrate.entidade.Usuario;
+import java.sql.SQLException;
+
 /**
  *
  * @author franc
@@ -20,5 +24,18 @@ public class Validacao {
             return false;
         }
         
+    }
+    
+    public static Boolean validaMatricula(String matricula)throws SQLException{
+        UsuarioDao uDao = new UsuarioDao();
+        Usuario u = new Usuario();
+        u = uDao.pesquisarPorMatricula(matricula);
+        if (u == null) {
+            // matricula não existe, usuario pode cadastrar
+            return false;
+        } else {
+            // matricula existe, usuario deve cadastrar outra matricula
+            return true;
+        }
     }
 }

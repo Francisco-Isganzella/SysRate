@@ -25,16 +25,13 @@ public class DisciplinaDao {
     protected ResultSet resultSet;
     
     public void salvar(Disciplina disciplina) throws SQLException{
-        String sql = "INSERT INTO Disciplina (disciplina, visivel) VALUES (?,?)";
+        String sql = "INSERT INTO Disciplina (disciplina, visivelDisciplina) VALUES (?,?)";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparando.setString(1, disciplina.getDisciplina());
-            preparando.setBoolean(2, disciplina.getVisivel());
+            preparando.setBoolean(2, disciplina.getVisivelDisciplina());
             preparando.executeUpdate();
-            //resultSet.next();
-            //disciplina.setDisciplinaID(resultSet.getInt(1));
-            
             
         } catch (Exception e) {
             System.err.println("Ocorreu um erro ao salvar a disciplina:" + e.getMessage());
@@ -45,24 +42,20 @@ public class DisciplinaDao {
     
     public Disciplina pesquisaPorNome(String nome) throws SQLException {
         Disciplina disciplina = null;
-        //String consulta = "SELECT * FROM Disciplina d WHERE d.disciplina like ?";
         String consulta = "SELECT * FROM disciplina d "
                 + "WHERE d.disciplina= ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
-            //preparando.setString(1, "%" + nome + "%");
             preparando.setString(1, nome);
             resultSet = preparando.executeQuery();
             
             if (resultSet.next()) {
                 disciplina = new Disciplina();
                 disciplina.setDisciplinaID(resultSet.getInt("disciplinaID"));
-                disciplina.setVisivel(resultSet.getBoolean("visivel"));
+                disciplina.setVisivelDisciplina(resultSet.getBoolean("visivelDisciplina"));
                 disciplina.setDisciplina(resultSet.getString("disciplina"));
             }
-            
-            //System.out.println(disciplina.getDisciplina());
         } catch (SQLException e) {
             System.err.println("Erro ao pesquisar disciplina por nome:"+e.getMessage());
         } finally {
@@ -73,7 +66,7 @@ public class DisciplinaDao {
     
     public List<Disciplina> listarDisciplina()throws SQLException{
         List<Disciplina> listaDisciplina = new ArrayList<Disciplina>();
-        String consulta = "SELECT * FROM Disciplina";
+        String consulta = "SELECT * FROM Disciplina d ORDER BY d.disciplina";
         
         try {
             conexao = FabricaConexao.abrirConexao();
@@ -82,7 +75,7 @@ public class DisciplinaDao {
             while (resultSet.next()) {                
                 Disciplina d = new Disciplina();
                 d.setDisciplinaID(resultSet.getInt("disciplinaID"));
-                d.setVisivel(resultSet.getBoolean("visivel"));
+                d.setVisivelDisciplina(resultSet.getBoolean("visivelDisciplina"));
                 d.setDisciplina(resultSet.getString("disciplina"));
                 listaDisciplina.add(d);
             }
@@ -95,11 +88,11 @@ public class DisciplinaDao {
     }
     
     public void alterar(Disciplina disciplina) throws SQLException {
-        String sql = "UPDATE Disciplina SET visivel = ?, disciplina = ? WHERE disciplinaID = ?";
+        String sql = "UPDATE Disciplina SET visivelDisciplina = ?, disciplina = ? WHERE disciplinaID = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(sql);
-            preparando.setBoolean(1, disciplina.getVisivel());
+            preparando.setBoolean(1, disciplina.getVisivelDisciplina());
             preparando.setString(2, disciplina.getDisciplina());
             preparando.setInt(3, disciplina.getDisciplinaID());
             preparando.executeUpdate();

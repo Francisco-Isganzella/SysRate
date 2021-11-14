@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -63,25 +61,27 @@ public class Cadastro {
     int idProf;
     DefaultTableModel tabelaModeloAluno;
     DefaultTableModel tabelaModeloProfessor;
+    String disciplina;
+    String curso;
     public Cadastro() throws SQLException{
         JButton buttonSemestre;
         JLabel labelSemestre = new JLabel();
         
         JTextField fieldNomeAluno;
         JTextField fieldMatricula;
-        JTextField fieldCurso;
         JButton buttonCadastrarAluno;
         JButton buttonExcluiAluno;
         JButton buttonCancelaAluno;
+        JComboBox comboCursos = new Combo().ComboCurso(100, 53, 375, 20);
         
         JTextField fieldNomeProfessor;
-        JTextField fieldProfessorDisciplina;
-        JTextField fieldProfessorCurso;
         JTextField fieldProfessorTurma;
         
         JButton buttonCadastrarProfessor;
         JButton buttonExcluiProfessor;
         JButton buttonCancelaProfessor;
+        JComboBox comboProfessorCursos = new Combo().ComboCurso(100, 53, 160, 20);
+        JComboBox comboProfessorDisciplina = new Combo().ComboDisciplina(335, 53, 150, 20);
         
         JTextField fieldNomeDisciplina;
         JButton buttonCadastraDisciplina;
@@ -107,8 +107,6 @@ public class Cadastro {
         labelSemestre.setBounds(810, 5, 200, 20);
         paneltitulo.add(labelSemestre);
         janela.getContentPane().add(paneltitulo);
-        
-        
         
         buttonSemestre.addActionListener(new ActionListener() {
             @Override
@@ -156,24 +154,8 @@ public class Cadastro {
         alinhaCentro(tabelaCurso, 0);
         alinhaCentro(tabelaCurso, 1);
         
-        
-        
         carregarTableModel(tabelaModeloCurso, "curso");
-        List<Curso> lista_cursos = new ArrayList();
-        CursoDao cDaoL = new CursoDao();
-        lista_cursos = cDaoL.listarCurso();
-        /*tabelaModeloCurso.getDataVector().clear();
         
-        
-        
-        
-        
-        if (!lista_cursos.isEmpty()) {
-        for (Curso c : lista_cursos) {
-        tabelaModeloCurso.addRow(new Object[] {c.getCurso()});
-        int idCurso = c.getCursoID();
-        }
-        }*/
         buttonCancelaCurso.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,23 +186,26 @@ public class Cadastro {
                         try {
                             Curso c = new Curso();
                             c.setCurso(fieldNomeCurso.getText());
-                            c.setVisivel(Boolean.TRUE);
+                            c.setVisivelCurso(Boolean.TRUE);
 
                             CursoDao cDao = new CursoDao();
                             if (cursoID == 0) {
                                 cDao.salvar(c);
+                                comboCursos.addItem(c.getCurso());
+                                comboProfessorCursos.addItem(c.getCurso());
                             } else{
+                                comboCursos.removeItem(curso);
+                                comboProfessorCursos.removeItem(curso);
                                 c.setCursoID(cursoID);
                                 cDao.alterar(c);
                                 cursoID = 0;
                                 buttonCadastraCurso.setText("Cadastrar");
+                                comboCursos.addItem(c.getCurso());
+                                comboProfessorCursos.addItem(c.getCurso());
                             }
                     } catch (SQLException e) {
                         System.err.println("Erro ao salvar botão curso:" + e.getMessage());
                     }
-                        /*// MOSTRA OS DADOS DO FIELD DIRETO NO TABLE SEM BUSCAR NO BD
-                        String[] vetorCurso = {fieldNomeCurso.getText()};
-                        tabelaModeloCurso.addRow(vetorCurso);*/
                     carregarTableModel(tabelaModeloCurso, "curso");
                     fieldNomeCurso.setText("");
                     }
@@ -236,6 +221,7 @@ public class Cadastro {
             cursoID = Integer.parseInt(tabelaCurso.getValueAt(tabelaCurso.getSelectedRow(), 0).toString());
             fieldNomeCurso.setText(tabelaCurso.getValueAt(tabelaCurso.getSelectedRow(), 1).toString());
             buttonCadastraCurso.setText("Atualizar");
+            curso = tabelaCurso.getValueAt(tabelaCurso.getSelectedRow(), 1).toString();
             }
 
             @Override
@@ -263,11 +249,16 @@ public class Cadastro {
                 Curso c = new Curso();
                 CursoDao cDao = new CursoDao();
                 
-                c.setVisivel(false);
+                c.setVisivelCurso(false);
                 c.setCurso(fieldNomeCurso.getText());
                 c.setCursoID(cursoID);
                 
                 cDao.alterar(c);
+                carregarTableModel(tabelaModeloProfessor, "professor");
+                comboCursos.removeItem(c.getCurso());
+                comboProfessorCursos.removeItem(c.getCurso());
+                
+                c.setVisivelCurso(false);
             } catch (SQLException ex) {
                 System.err.println("Erro no botão excluir curso\n"+ex.getMessage());
             }
@@ -277,6 +268,7 @@ public class Cadastro {
                 fieldNomeCurso.setText("");
                 buttonCadastraCurso.setText("Cadastrar");
                 cursoID = 0;
+                
         }
         });
         
@@ -311,16 +303,7 @@ public class Cadastro {
         List<Disciplina> lista_disciplinas = new ArrayList();
         DisciplinaDao dDaoL = new DisciplinaDao();
         lista_disciplinas = dDaoL.listarDisciplina();
-        /*tabelaModeloDisciplina.getDataVector().clear();
-        
-        
-        
-        
-        if (!lista_disciplinas.isEmpty()) {
-        for (Disciplina d : lista_disciplinas) {
-        tabelaModeloDisciplina.addRow(new Object[] {d.getDisciplina()});
-        }
-        }*/
+
         buttonCancelaDisciplina.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -351,24 +334,25 @@ public class Cadastro {
                   try {
                     Disciplina d = new Disciplina();
                     d.setDisciplina(fieldNomeDisciplina.getText());
-                    d.setVisivel(Boolean.TRUE);
+                    d.setVisivelDisciplina(Boolean.TRUE);
                     
                     DisciplinaDao dDao = new DisciplinaDao();
                     
                       if (disciplinaID == 0) {
                           dDao.salvar(d);
+                          comboProfessorDisciplina.addItem(d.getDisciplina());
                       } else{
+                          comboProfessorDisciplina.removeItem(disciplina);
                           d.setDisciplinaID(disciplinaID);
                           dDao.alterar(d);
                           disciplinaID = 0;
                           buttonCadastraDisciplina.setText("Cadastrar");
+                          comboProfessorDisciplina.addItem(d.getDisciplina());
                       }
                 } catch (SQLException e) {
                     System.err.println("Erro ao salvar botao disciplina\n" + e.getMessage());
                 }
-                // MOSTRA OS DADOS DO FIELD DIRETO NO TABLE SEM BUSCAR NO BD
-                /*String[] vetorDisciplina = {fieldNomeDisciplina.getText()};
-                tabelaModeloDisciplina.addRow(vetorDisciplina);*/
+                  
                 carregarTableModel(tabelaModeloDisciplina, "disciplina");
                 fieldNomeDisciplina.setText("");  
                 }
@@ -384,6 +368,7 @@ public class Cadastro {
             disciplinaID = Integer.valueOf(tabelaDisciplina.getValueAt(tabelaDisciplina.getSelectedRow(), 0).toString());
             fieldNomeDisciplina.setText(tabelaDisciplina.getValueAt(tabelaDisciplina.getSelectedRow(), 1).toString());
             buttonCadastraDisciplina.setText("Atualizar");
+            disciplina = tabelaDisciplina.getValueAt(tabelaDisciplina.getSelectedRow(), 1).toString();
             }
 
             @Override
@@ -411,10 +396,11 @@ public class Cadastro {
                     DisciplinaDao dDao = new DisciplinaDao();
                     
                     d.setDisciplina(fieldNomeDisciplina.getText());
-                    d.setVisivel(false);
+                    d.setVisivelDisciplina(false);
                     d.setDisciplinaID(disciplinaID);
                     
                     dDao.alterar(d);
+                    comboProfessorDisciplina.removeItem(d.getDisciplina());
                 } catch (SQLException sQLException) {
                     System.err.println("Erro botão excluir disciplina\n"+sQLException);
                 }
@@ -437,29 +423,8 @@ public class Cadastro {
         panelProfessor.add(label("Curso", 5, 50, 70, 20, 12));
         panelProfessor.add(label("Turma", 270, 25, 100, 20, 12));
         panelProfessor.add(fieldNomeProfessor = new Field(100, 28, 160, 20));
-        
-        JComboBox comboProfessorDisciplina = new JComboBox();
-        
-        for (Disciplina d : lista_disciplinas) {
-            if (d.getVisivel() == true) {
-                comboProfessorDisciplina.addItem(d.getDisciplina());
-            }
-        }
-        
-        comboProfessorDisciplina.setBounds(335, 53, 150, 20);
-        panelProfessor.add(comboProfessorDisciplina);
-        
-        JComboBox comboProfessorCursos = new JComboBox();
-        
-        for (Curso c : lista_cursos) {
-            if (c.getVisivel() == true) {
-                comboProfessorCursos.addItem(c.getCurso());
-            }
-        }
-        
-        comboProfessorCursos.setBounds(100, 53, 160, 20);
-        
-        
+        panelProfessor.add(comboProfessorCursos/* = new Combo().ComboCurso(100, 53, 160, 20)*/);
+        panelProfessor.add(comboProfessorDisciplina/* = new Combo().ComboDisciplina(335, 53, 150, 20)*/);
         panelProfessor.add(fieldProfessorTurma = new Field(335, 28, 150, 20));
         panelProfessor.add(buttonCadastrarProfessor = new Button(398,74,90,25, "Cadastrar", Color.gray, Color.WHITE));
         buttonCadastrarProfessor.setFont(new Font("null", Font.BOLD, 11));
@@ -491,34 +456,6 @@ public class Cadastro {
         
         carregarTableModel(tabelaModeloProfessor, "professor");
         
-        /*//DESTA FORMA FAZ SELECT NO TABLE APENAS DOS ID'S DE PROFESSOR, DISCIPLINA E CURSO;
-        tabelaModeloProfessor.getDataVector().clear();
-        List<Turma> lista_turma = new ArrayList<Turma>();
-        
-        TurmaDao tDaoL = new TurmaDao();
-        lista_turma = tDaoL.listarTurma();
-        
-        if (!lista_turma.isEmpty()) {
-        for (Turma t : lista_turma) {
-        tabelaModeloProfessor.addRow(new Object[] {t.getProfessorID(), t.getTurma(), t.getDisciplinaID(), t.getCursoID()});
-        }
-        }*/
-        
-        // DESTA FORMA O SELECT NO TABLE DEVE MOSTRAR OS NOMES DE PROFESSOR, TURMA, DISCIPLINA E CURSO
-        /*tabelaModeloProfessor.getDataVector().clear();
-        List<Turma> lista_turma = new ArrayList<Turma>();
-        
-        TurmaDao tDaoL = new TurmaDao();
-        lista_turma = tDaoL.listarTurmaInner();
-        
-        if (!lista_turma.isEmpty()) {
-        for (Turma t : lista_turma) {
-        tabelaModeloProfessor.addRow(new Object[]{t.getNomeProfessor()
-        , t.getTurma(), t.getDisciplina(),
-        t.getCurso()});
-        }
-        }*/
-        
         buttonCancelaProfessor.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -539,8 +476,6 @@ public class Cadastro {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (Validacao.validaVazio(fieldNomeProfessor.getText()) 
-                    /*|| Validacao.validaVazio(fieldProfessorDisciplina.getText())*/
-                    /*|| Validacao.validaVazio(fieldProfessorCurso.getText())*/
                     || Validacao.validaVazio(fieldProfessorTurma.getText())) {
                     panelProfessor.add(labelError);
                     labelError.setBounds(180, 80, 200, 20);
@@ -560,7 +495,7 @@ public class Cadastro {
                     // INSERT PROFESSOR (nomeProfessor, visivel);
                     Professor p = new Professor();
                     p.setNomeProfessor(fieldNomeProfessor.getText());
-                    p.setVisivel(Boolean.TRUE);
+                    p.setVisivelProfessor(Boolean.TRUE);
 
                     ProfessorDao pDao = new ProfessorDao();
                       if (professorID == 0) {
@@ -568,32 +503,29 @@ public class Cadastro {
                           p = pDao.pesquisarPorNome(fieldNomeProfessor.getText());
                           idProf = p.getProfessorID();
                       }
-
-                    
-
                     // SELECT CURSO (pelo nome, para retornar seu id);
                     Curso c2 = new Curso();
                     CursoDao cDao2 = new CursoDao();
                     c2 = cDao2.pesquisarPorNome(comboProfessorCursos.getSelectedItem().toString());
                     int idCur = c2.getCursoID();
-
                     // SELECT DISCIPLINA (pelo nome, para retornar seu id)
                     Disciplina d = new Disciplina();
                     DisciplinaDao dDao = new DisciplinaDao();
                     d = dDao.pesquisaPorNome(comboProfessorDisciplina.getSelectedItem().toString());
                     int idDis = d.getDisciplinaID();
-
                     // INSERT TURMA (disciplinaID, professorID, cursoID, turma, visivel);
                     Turma t = new Turma();
                     t.setDisciplinaID(idDis);
                     t.setCursoID(idCur);
                     t.setTurma(fieldProfessorTurma.getText());
                     t.setProfessorID(idProf);
-                    t.setVisivel(Boolean.TRUE);
+                    t.setVisivelTurma(Boolean.TRUE);
                     
                     TurmaDao tDao = new TurmaDao();
                       if (turmaID == 0) {
                           tDao.salvar(t);
+                          comboProfessorCursos.setSelectedIndex(0);
+                          comboProfessorDisciplina.setSelectedIndex(0);
                       }else{
                           p.setProfessorID(professorID);
                           t.setTurmaID(turmaID);
@@ -606,10 +538,8 @@ public class Cadastro {
                 } catch (SQLException e) {
                     System.err.println("Erro ao salvar botao professor:" + e.getMessage());
                 }
-                //MOSTRA OS DADOS DO FIELD DIRETO NO TABLE SEM BUSCAR NO BD
-                /*String[] vetorProfessor = {fieldNomeProfessor.getText(), comboProfessorDisciplina.getSelectedItem().toString(), comboProfessorCursos.getSelectedItem().toString(), fieldProfessorTurma.getText()};
-                tabelaModeloProfessor.addRow(vetorProfessor);*/
-                carregarTableModel(tabelaModeloProfessor, "professor");
+
+                  carregarTableModel(tabelaModeloProfessor, "professor");
                 fieldNomeProfessor.setText("");
                 fieldProfessorTurma.setText("");  
                 }
@@ -669,7 +599,7 @@ public class Cadastro {
                 TurmaDao tDao = new TurmaDao();
                 
                 t.setTurma(fieldProfessorTurma.getText());
-                t.setVisivel(false);
+                t.setVisivelTurma(false);
                 t.setTurmaID(turmaID);
                 
                 try {
@@ -694,17 +624,7 @@ public class Cadastro {
         panelAluno.add(label("Curso", 5, 50, 100, 20, 12));
         panelAluno.add(fieldNomeAluno = new Field(100, 28, 160, 20));
         panelAluno.add(fieldMatricula = new Field(325, 28, 150, 20));
-        
-        JComboBox comboCursos = new JComboBox();
-          
-        for (Curso c : lista_cursos) {
-            if (c.getVisivel() == true) {
-                comboCursos.addItem(c.getCurso());
-            }
-        }
-        
-        comboCursos.setBounds(100, 53, 375, 20);
-        panelAluno.add(comboCursos);
+        panelAluno.add(comboCursos/* = new Combo().ComboCurso(100, 53, 375, 20)*/);
         
         panelAluno.add(buttonCadastrarAluno = new Button(387,74,90,25, "Cadastrar", Color.gray, Color.WHITE));
         buttonCadastrarAluno.setFont(new Font("Null", Font.BOLD, 11));
@@ -712,7 +632,6 @@ public class Cadastro {
         buttonExcluiAluno.setFont(new Font("Null", Font.BOLD, 11));
         panelAluno.add(buttonCancelaAluno = new Button(250, 290, 90, 25, "Cancelar", Color.DARK_GRAY, Color.orange));
         buttonCancelaAluno.setFont(new Font("Null", Font.BOLD, 11));
-        
         
         tabelaModeloAluno = new DefaultTableModel();
         JTable tabelaAluno = new JTable(tabelaModeloAluno);
@@ -734,34 +653,6 @@ public class Cadastro {
         
         carregarTableModel(tabelaModeloAluno, "aluno");
         
-        /*  //DESTA FORMA FAZ SELECT NO TABLE APENAS DOS ID'S DE PROFESSOR, DISCIPLINA E CURSO;
-        tabelaModeloAluno.getDataVector().clear();
-        List<Usuario> lista_usuario = new ArrayList<Usuario>();
-        
-        UsuarioDao uDaoL = new UsuarioDao();
-        lista_usuario = uDaoL.listarUsuario();
-        
-        if (!lista_usuario.isEmpty()) {
-        for (Usuario u : lista_usuario) {
-        tabelaModeloAluno.addRow(new Object[] {u.getNomeUsuario()
-        , u.getMatricula(), u.getCursoID()});
-        }
-        }*/
-        
-        // DESTA FORMA O SELECT NO TABLE DEVE MOSTRAR OS NOMES DE PROFESSOR, TURMA, DISCIPLINA E CURSO
-        /*tabelaModeloAluno.getDataVector().clear();
-        List<Usuario> lista_usuario = new ArrayList<Usuario>();
-        
-        UsuarioDao uDaoL = new UsuarioDao();
-        lista_usuario = uDaoL.listarUsuarioInner();
-        
-        if (!lista_usuario.isEmpty()) {
-        for (Usuario u : lista_usuario) {
-        tabelaModeloAluno.addRow(new Object[]{u.getNomeUsuario()
-        , u.getMatricula(), u.getCurso()});
-        }
-        }*/
-        
         buttonCancelaAluno.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -778,8 +669,7 @@ public class Cadastro {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (Validacao.validaVazio(fieldNomeAluno.getText()) 
-                    || Validacao.validaVazio(fieldMatricula.getText()) 
-                    /*|| Validacao.validaVazio(comboCursos.getText())*/) {
+                    || Validacao.validaVazio(fieldMatricula.getText())) {
                     panelAluno.add(labelError);
                     labelError.setBounds(180, 80, 200, 20);
                     labelError.setText("Preencha todos os campos");
@@ -801,7 +691,6 @@ public class Cadastro {
                         
                         c = cDao.pesquisarPorNome(comboCursos.getSelectedItem().toString());
                         int id = c.getCursoID();
-                        
                         // INSERT NO USUARIO
                         Usuario u = new Usuario();
 
@@ -813,7 +702,14 @@ public class Cadastro {
 
                         UsuarioDao uDao = new UsuarioDao();
                         if (alunoID == 0) {
-                            uDao.salvar(u);
+                            if (Validacao.validaMatricula(fieldMatricula.getText()) == false) {
+                                uDao.salvar(u);
+                                labelError.setText("");
+                            } else {
+                                panelAluno.add(labelError);
+                                labelError.setBounds(180, 80, 200, 20);
+                                labelError.setText("Matricula já cadastrada");
+                            }
                         }else {
                             u.setUsuarioID(alunoID);
                             u.setCursoID(id);
@@ -825,12 +721,11 @@ public class Cadastro {
                     } catch (SQLException e) {
                         System.err.println("Erro ao salvar botão usuario:" + e.getMessage());
                     }
-                // MOSTRA OS DADOS DO FIELD DIRETO NO TABLE SEM BUSCAR NO BD
-                /*String[] vetorAluno = {fieldNomeAluno.getText(), fieldMatricula.getText(), comboCursos.getSelectedItem().toString()};
-                tabelaModeloAluno.addRow(vetorAluno);*/
+                    
                     carregarTableModel(tabelaModeloAluno, "aluno");
-                fieldNomeAluno.setText("");
-                fieldMatricula.setText("");
+                    fieldNomeAluno.setText("");
+                    fieldMatricula.setText("");
+                    comboCursos.setSelectedIndex(0);
                 }
                 
             }
@@ -885,6 +780,7 @@ public class Cadastro {
             buttonCadastrarAluno.setText("Cadastrar");
             alunoID = 0;
             cursoID = 0;
+            comboCursos.setSelectedIndex(0);
             }
         });
         
@@ -936,7 +832,7 @@ public class Cadastro {
                 lista_cursos = cDaoL.listarCurso();
                 if (!lista_cursos.isEmpty()) {
                     for (Curso c : lista_cursos) {
-                        if (c.getVisivel() == true) {
+                        if (c.getVisivelCurso()== true) {
                             tabelaModelo.addRow(new Object[]{c.getCursoID(), c.getCurso()});
                         }
                     }
@@ -948,7 +844,7 @@ public class Cadastro {
                 lista_disciplinas = dDaoL.listarDisciplina();
                 if (!lista_disciplinas.isEmpty()) {
                     for (Disciplina d : lista_disciplinas) {
-                        if (d.getVisivel() == true) {
+                        if (d.getVisivelDisciplina()== true) {
                             tabelaModelo.addRow(new Object[]{d.getDisciplinaID(), d.getDisciplina()});
                         } 
                     }
@@ -960,18 +856,10 @@ public class Cadastro {
                 lista_turma = tDaoL.listarTurmaInner();
                 if (!lista_turma.isEmpty()) {
                     for (Turma t : lista_turma) {
-                            if (t.getVisivel() == true) {
-                                //Curso c = new Curso();
-                                //c.setCursoID(t.getCursoID());
-                                
-                                //CursoDao cDao = new CursoDao();
-                                //c = cDao.pesquisarPorId(c.getCursoID());
-                                // CONTINUAR DAQUI <<<--------------------
-                                /*if (c.getVisivel() == true) {*/
-                                    tabelaModelo.addRow(new Object[]{t.getTurmaID(), t.getNomeProfessor(),
-                                        t.getTurma(), t.getCurso(), t.getDisciplina(),t.getProfessorID()
-                                    });
-                                //}
+                        if (t.getVisivelTurma()) {
+                                tabelaModelo.addRow(new Object[]{t.getTurmaID(), t.getNomeProfessor(),
+                                    t.getTurma(), t.getCurso(), t.getDisciplina(),t.getProfessorID()
+                                });
                         }
                     }
                 }       break;
@@ -982,13 +870,12 @@ public class Cadastro {
                 lista_usuario = uDaoL.listarUsuarioInner();
                 if (!lista_usuario.isEmpty()) {
                     for (Usuario u : lista_usuario) {
-                            if (u.getVisivel() == true) {
-                                tabelaModelo.addRow(new Object[]{u.getUsuarioID(), u.getNomeUsuario(),
-                                    u.getMatricula(), u.getCurso()});
-                            }
-                        
+                        if (u.getVisivelCurso() == true) {
+                            tabelaModelo.addRow(new Object[]{u.getUsuarioID(), u.getNomeUsuario(),
+                                u.getMatricula(), u.getCurso()});
+                        }
                     }
-                }       break;
+                }      break; 
             default:
                 break;
         }
