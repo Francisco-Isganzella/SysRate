@@ -9,9 +9,16 @@ import br.com.sysrate.entidade.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+<<<<<<< HEAD
 import java.sql.SQLDataException;
 import java.sql.SQLException;
 import java.sql.Statement;
+=======
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> adminCadastroV2
 
 /**
  *
@@ -22,6 +29,7 @@ public class UsuarioDao {
     protected PreparedStatement preparando;
     protected ResultSet resultSet;
     
+<<<<<<< HEAD
     public void salvar(Usuario usuario) throws SQLDataException, SQLDataException, SQLException{
         String sql = "INSERT INTO Usuario (cursoID, matricula, nomeUsuario, senha, permissao, ativoOnline) VALUES (?,?,?,?,?,?)";
         try {
@@ -90,6 +98,115 @@ public class UsuarioDao {
         }finally {
             FabricaConexao.fecharConexao(conexao, preparando);
         }
+=======
+    public void salvar(Usuario usuario) throws SQLException{
+        String sql = "INSERT INTO Usuario (nomeUsuario, matricula, cursoID, permissao, ativoOnline) VALUES (?,?,?,?,?)";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            preparando.setString(1, usuario.getNomeUsuario());
+            preparando.setString(2, usuario.getMatricula());
+            preparando.setInt(3, usuario.getCursoID());
+            preparando.setBoolean(4, usuario.getPermissao());
+            preparando.setBoolean(5, usuario.getAtivoOnline());
+            preparando.executeUpdate();
+            //resultSet.next();
+            //usuario.setUsuarioID(resultSet.getInt(1));
+            
+            
+        } catch (SQLException e) {
+            System.err.println("Ocorreu um erro ao salvar o usuario:" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+    }
+    public List<Usuario> listarUsuario() throws SQLException{
+        List<Usuario> listaUsuario = new ArrayList<Usuario>();
+        String consulta = "SELECT * FROM usuario";
+        
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            resultSet = preparando.executeQuery();
+            while (resultSet.next()) {                
+                Usuario u = new Usuario();
+                u.setUsuarioID(resultSet.getInt("usuarioID"));
+                u.setCursoID(resultSet.getInt("cursoID"));
+                u.setMatricula(resultSet.getString("matricula"));
+                u.setNomeUsuario(resultSet.getString("nomeUsuario"));
+                u.setSenha(resultSet.getString("senha"));
+                u.setPermissao(resultSet.getBoolean("permissao"));
+                u.setAtivoOnline(resultSet.getBoolean("ativoOnline"));
+                
+                listaUsuario.add(u);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar os usuarios" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return listaUsuario;
     }
     
+    public List<Usuario> listarUsuarioInner() throws SQLException{
+        List<Usuario> listaUsuario = new ArrayList<Usuario>();
+        
+        String consulta = "SELECT * FROM usuario u INNER JOIN curso c on c.cursoID = u.cursoID ORDER BY u.nomeUsuario";
+        
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            resultSet = preparando.executeQuery();
+            while (resultSet.next()) {
+                Usuario u = new Usuario();
+                
+                u.setUsuarioID(resultSet.getInt("usuarioID"));
+                u.setNomeUsuario(resultSet.getString("nomeUsuario"));
+                u.setMatricula(resultSet.getString("matricula"));
+                u.setCurso(resultSet.getString("c.curso"));
+                u.setVisivel(resultSet.getBoolean("visivel"));
+                
+                listaUsuario.add(u);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar os usuarios " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return listaUsuario;
+    }
+    
+    public void excluir(Integer id) throws SQLException {
+     try {
+         conexao = FabricaConexao.abrirConexao();
+         preparando = conexao.prepareStatement("DELETE FROM Usuario WHERE usuarioID = ?");
+         preparando.setInt(1, id);
+         preparando.executeUpdate();
+     } catch (SQLException e) {
+         System.err.println("Erro ao excluir usuario\n" + e.getMessage());
+     } finally {
+         FabricaConexao.fecharConexao(conexao, preparando);
+     }
+>>>>>>> adminCadastroV2
+    }
+    
+    public void alterar(Usuario usuario) throws SQLException {
+        String sql = "UPDATE Usuario SET matricula = ?, nomeUsuario = ?, cursoID = ?, permissao = ?, ativoOnline = ? WHERE usuarioID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(sql);
+            preparando.setString(1, usuario.getMatricula());
+            preparando.setString(2, usuario.getNomeUsuario());
+            preparando.setInt(3, usuario.getCursoID());
+            preparando.setBoolean(4, usuario.getPermissao());
+            preparando.setBoolean(5, usuario.getAtivoOnline());
+            preparando.setInt(6, usuario.getUsuarioID());
+            preparando.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erro ao alterar usuario " + e.getMessage());
+        } 
+        finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+    }
 }

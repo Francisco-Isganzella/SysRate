@@ -9,40 +9,67 @@ package br.com.sysrate.entidade;
  *
  * @author migue
  */
+<<<<<<< HEAD
 public class Usuario {
     private int usuarioID;
     private int cursoID;
+=======
+public class Usuario extends Curso{
+    private Integer usuarioID;
+    private Integer cursoID;
+>>>>>>> adminCadastroV2
     private String matricula;
     private String nomeUsuario;
     private String senha;
     private Boolean permissao;
     private Boolean ativoOnline;
+<<<<<<< HEAD
+=======
+    
+    
+>>>>>>> adminCadastroV2
 
     /**
      * @return the usuarioID
      */
+<<<<<<< HEAD
     public int getUsuarioID() {
+=======
+    public Integer getUsuarioID() {
+>>>>>>> adminCadastroV2
         return usuarioID;
     }
 
     /**
      * @param usuarioID the usuarioID to set
      */
+<<<<<<< HEAD
     public void setUsuarioID(int usuarioID) {
+=======
+    public void setUsuarioID(Integer usuarioID) {
+>>>>>>> adminCadastroV2
         this.usuarioID = usuarioID;
     }
 
     /**
      * @return the cursoID
      */
+<<<<<<< HEAD
     public int getCursoID() {
+=======
+    public Integer getCursoID() {
+>>>>>>> adminCadastroV2
         return cursoID;
     }
 
     /**
      * @param cursoID the cursoID to set
      */
+<<<<<<< HEAD
     public void setCursoID(int cursoID) {
+=======
+    public void setCursoID(Integer cursoID) {
+>>>>>>> adminCadastroV2
         this.cursoID = cursoID;
     }
 
@@ -75,6 +102,23 @@ public class Usuario {
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @return the senha
+     */
+    public String getSenha() {
+        return senha;
+    }
+
+    /**
+     * @param senha the senha to set
+     */
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    /**
+>>>>>>> adminCadastroV2
      * @return the permissao
      */
     public Boolean getPermissao() {
@@ -102,6 +146,7 @@ public class Usuario {
         this.ativoOnline = ativoOnline;
     }
 
+<<<<<<< HEAD
     /**
      * @return the senha
      */
@@ -116,4 +161,7 @@ public class Usuario {
         this.senha = senha;
     }
 
+=======
+    
+>>>>>>> adminCadastroV2
 }

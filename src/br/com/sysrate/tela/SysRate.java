@@ -6,6 +6,9 @@
 package br.com.sysrate.tela;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -19,10 +22,18 @@ import javax.swing.JPanel;
 public class SysRate {
     
     private JFrame janela;
+    JButton botaoHome;
     
     public SysRate(){
         
         janela();
+        
+        botaoHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+            janela.setVisible(true);
+            }
+        });
         
     }
     
@@ -52,7 +63,7 @@ public class SysRate {
         
         ImageIcon imagemBotaoHome = new ImageIcon(getClass().getResource("botaoHome.png"));
         
-        JButton botaoHome = new JButton(imagemBotaoHome);
+        botaoHome = new JButton(imagemBotaoHome);
         botaoHome.setBounds(20, 0, 30, 30);
         botaoHome.setBackground(Color.LIGHT_GRAY);
         botaoHome.setBorder(null);
@@ -66,12 +77,18 @@ public class SysRate {
         return janela;
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException{
         // TODO code application logic here
         //new SysRate();
+<<<<<<< HEAD
         new LoginCadastro();
         //new Cadastro();
         //new PerfilResumo();
+=======
+        //new LoginCadastro();
+        new Cadastro();
+        
+>>>>>>> adminCadastroV2
     }
     
 }
