@@ -1,8 +1,12 @@
 package br.com.sysrate.tela;
 
+import br.com.sysrate.dao.CursoDao;
+import br.com.sysrate.dao.NotasDao;
 import br.com.sysrate.entidade.Usuario;
 import br.com.sysrate.dao.ProfessorDao;
 import br.com.sysrate.dao.TurmaDao;
+import br.com.sysrate.entidade.Curso;
+import br.com.sysrate.entidade.Notas;
 import br.com.sysrate.entidade.Professor;
 import br.com.sysrate.entidade.Turma;
 import java.awt.BorderLayout;
@@ -126,7 +130,11 @@ public class InicioPaineis {
         public class CriacaoPainel extends JPanel {
             
             ProfessorDao pdao = new ProfessorDao();
-            Professor p = new Professor();            
+            Professor p = new Professor();        
+            CursoDao cdao = new CursoDao();
+            Curso c = new Curso();
+            NotasDao ndao = new NotasDao();
+            Notas n = new Notas();
             
             public CriacaoPainel() throws SQLException {
                                 
@@ -149,13 +157,13 @@ public class InicioPaineis {
                 nomeProf.setFont(fonteNomeProf);
                 add(nomeProf);
                 nomeProf.setText(pdao.buscarNomeProfessor(i));
-                i = i + 1;
+                
                 
                 JLabel cursoProf = new JLabel("CURSO");
                 cursoProf.setBounds(140, 50, 400, 20);
                 cursoProf.setFont(fonteNomeCurso);
                 add(cursoProf);
-                //curoProf.setText("substituir com nome do curso do banco, fazer isto na ação do botão");
+                cursoProf.setText(cdao.buscarNomeCurso(pdao.buscarNomeProfessor(i)));
                 
                 JLabel disciplinas = new JLabel("DISCIPLINAS:");
                 disciplinas.setBounds(140, 80,180,20);
@@ -182,6 +190,10 @@ public class InicioPaineis {
                 didatica.setBounds(0,0,200,20);
                 didatica.setFont(fonteNotas);
                 PainelNotas.add(didatica);
+                JLabel didaticaNota = new JLabel();
+                didaticaNota.setBounds(200, 0, 50, 20);
+                PainelNotas.add(didaticaNota);
+                didaticaNota.setText(String.valueOf(n.getDidatica()));
                 
                 JLabel qualidadeMaterial = new JLabel("Qualidade do Material");
                 qualidadeMaterial.setBounds(0,20,200,20);
@@ -203,6 +215,7 @@ public class InicioPaineis {
                 respeito.setFont(fonteNotas);
                 PainelNotas.add(respeito);
                 
+                i = i + 1;
                 add(PainelNotas);
                 
                 //FIM DO PAINEL CONTENDO AS NOTAS
@@ -219,7 +232,7 @@ public class InicioPaineis {
                         else{
                             new LoginCadastro();
                         }*/
-                        new PerfilResumo();
+                        new LoginCadastro();
                         }                
                     
                 });

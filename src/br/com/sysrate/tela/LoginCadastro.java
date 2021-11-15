@@ -73,7 +73,6 @@ public class LoginCadastro {
         labelErroLogin.setForeground(Color.RED);
         
         
-        janela = new SysRate().janela();
         janela.setVisible(true);
         
         panelCadastro = new JPanel();

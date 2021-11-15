@@ -6,6 +6,7 @@
 package br.com.sysrate.dao;
 
 import br.com.sysrate.entidade.Curso;
+import br.com.sysrate.entidade.Professor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -124,5 +125,28 @@ public class CursoDao {
             FabricaConexao.fecharConexao(conexao, preparando);
         }
         return curso;
+    }
+    
+    public String buscarNomeCurso(String nomeProfessor) throws SQLException{
+        Curso curso = null;
+        String nomeCurso = "";
+        String consulta = "SELECT c.curso" +
+                          " FROM (Turma t INNER JOIN Curso c ON t.cursoID = c.cursoID)" +
+                          " INNER JOIN Professor p ON t.professorID = p.professorID" +
+                          " WHERE p.nomeProfessor = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setString(1, nomeProfessor);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                nomeCurso = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar curso " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return nomeCurso;
     }
 }

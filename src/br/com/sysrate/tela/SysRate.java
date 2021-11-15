@@ -78,7 +78,10 @@ public class SysRate {
     }
     
     public static void main(String[] args) throws SQLException{
-        new SysRate();
+        //new SysRate();
+        new InicioPaineis();
+        //new LoginCadastro();
+//        new Cadastro();
     }
     
 }
