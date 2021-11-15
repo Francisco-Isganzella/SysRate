@@ -3,6 +3,7 @@ package br.com.sysrate.tela;
 import br.com.sysrate.entidade.Usuario;
 import br.com.sysrate.dao.ProfessorDao;
 import br.com.sysrate.dao.TurmaDao;
+import br.com.sysrate.dao.UsuarioDao;
 import br.com.sysrate.entidade.Professor;
 import br.com.sysrate.entidade.Turma;
 import java.awt.BorderLayout;
@@ -40,23 +41,24 @@ import javax.swing.border.LineBorder;
 public class InicioPaineis {
     
     public Integer i = 1;
-    
-    public InicioPaineis() {
+    private JFrame frame;
+    public InicioPaineis() throws SQLException{
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                /*try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                    ex.printStackTrace();
-                }
+                ex.printStackTrace();
+                }*/
                 
-                JFrame frame = new JFrame("SysRate");
+                frame = new JFrame("SysRate");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(new PainelPrincipal());
                 frame.pack();
                 frame.setLocationRelativeTo(null);
-                frame.setVisible(true);                 
+                frame.setVisible(true);           
+                frame.setResizable(false);
             }
         });
     }
@@ -83,6 +85,45 @@ public class InicioPaineis {
                 botaoLoginLogout.setBackground(Color.DARK_GRAY);
                 botaoLoginLogout.setForeground(Color.WHITE);
                 botaoLoginLogout.setBorder(null);
+                
+                if (Validacao.getValidaOnline() == true) {
+                    botaoLoginLogout.setText("Logout");
+                    nomeUsuario.setText(Validacao.getValidaNome());
+                } else {
+                    botaoLoginLogout.setText("Login");
+                }
+                
+                Usuario u = new Usuario();
+                UsuarioDao uDao = new UsuarioDao();
+        
+                botaoLoginLogout.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            if (Validacao.getValidaOnline() == true) {
+                                Validacao.setValidaOnline(Boolean.FALSE);
+
+                                u.setAtivoOnline(Boolean.FALSE);
+
+                                u.setUsuarioID(Validacao.getValidaID());
+                                uDao.alterarLogin(u);
+
+                                new InicioPaineis();
+                                InicioPaineis.this.frame.dispose();
+
+                            } else {
+                                
+                                new LoginCadastro();
+                                InicioPaineis.this.frame.dispose();
+                            }
+
+
+
+                        } catch (SQLException x) {
+                            System.err.println("Erro LoginLogout: "+x.getMessage());
+                        }
+                    }
+                });
 
                 ImageIcon imagemBotaoHome = new ImageIcon(getClass().getResource("botaoHome.png"));
 
@@ -91,6 +132,23 @@ public class InicioPaineis {
                 botaoHome.setBackground(Color.LIGHT_GRAY);
                 botaoHome.setBorder(null);
 
+                botaoHome.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent ae) {
+
+                    try {
+                        InicioPaineis.this.frame.dispose();
+                        new InicioPaineis();
+                        new SysRate().janela().setVisible(false);
+
+                    } catch (SQLException ex) {
+                        System.err.println("erro botaoHome:"+ex.getMessage());
+                    }
+
+
+                }
+                });
+                
                 cabecalho.add(nomeUsuario);
                 cabecalho.add(botaoLoginLogout);
                 cabecalho.add(botaoHome);            
@@ -169,37 +227,39 @@ public class InicioPaineis {
                                                 
                 JButton avaliar = new JButton("Avaliar");
                 avaliar.setBounds(32, 97, 80, 18);
-                avaliar.setBackground(Color.ORANGE);
+                avaliar.setBackground(Color.DARK_GRAY);
+                avaliar.setForeground(Color.white);
                 add(avaliar);
                 
                 //PAINEL CONTENDO AS NOTAS
                 JPanel PainelNotas = new JPanel();
                 PainelNotas.setLayout(null);
                 PainelNotas.setBounds(590, 10, 300, 100);
-                PainelNotas.setBackground(Color.DARK_GRAY);
+                PainelNotas.setBackground(Color.GRAY);
+                PainelNotas.setForeground(Color.black);
                 
                 JLabel didatica = new JLabel("Didática");
-                didatica.setBounds(0,0,200,20);
+                didatica.setBounds(10,0,200,20);
                 didatica.setFont(fonteNotas);
                 PainelNotas.add(didatica);
                 
                 JLabel qualidadeMaterial = new JLabel("Qualidade do Material");
-                qualidadeMaterial.setBounds(0,20,200,20);
+                qualidadeMaterial.setBounds(10,20,200,20);
                 qualidadeMaterial.setFont(fonteNotas);
                 PainelNotas.add(qualidadeMaterial);
                 
                 JLabel qualidadeCorrecao = new JLabel("Qualidade da Correção");
-                qualidadeCorrecao.setBounds(0,40,200,20);
+                qualidadeCorrecao.setBounds(10,40,200,20);
                 qualidadeCorrecao.setFont(fonteNotas);
                 PainelNotas.add(qualidadeCorrecao);
                 
                 JLabel receptividade = new JLabel("Receptividade");
-                receptividade.setBounds(0,60,200,20);
+                receptividade.setBounds(10,60,200,20);
                 receptividade.setFont(fonteNotas);
                 PainelNotas.add(receptividade);
                 
                 JLabel respeito = new JLabel("Respeito");
-                respeito.setBounds(0,80,200,20);
+                respeito.setBounds(10,80,200,20);
                 respeito.setFont(fonteNotas);
                 PainelNotas.add(respeito);
                 
@@ -219,6 +279,7 @@ public class InicioPaineis {
                         else{
                             new LoginCadastro();
                         }*/
+                        frame.setVisible(false);
                         new PerfilResumo();
                         }                
                     
