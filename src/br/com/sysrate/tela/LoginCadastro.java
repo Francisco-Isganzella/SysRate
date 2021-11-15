@@ -31,6 +31,10 @@ import javax.swing.event.MouseInputListener;
  * @author migue
  */
 public class LoginCadastro {
+
+    private JPanel panelCadastro;
+    private JPanel panelLogin;
+    private String matriculaCapsula;
     
     private JFrame janela;
 
@@ -40,10 +44,9 @@ public class LoginCadastro {
      */
     
     
-    private JPanel panelCadastro;
-    private JPanel panelLogin;
     
-    public LoginCadastro (){
+            
+    public LoginCadastro () throws SQLException {
         
         janela = new SysRate().janela();
         
@@ -144,6 +147,7 @@ public class LoginCadastro {
                         }
                         String validaSenha = usuario.getSenha();
                         
+                        
                         if (validaSenha == null||validaSenha.equals("")) {
                             
                             if (!(LoginCadastro.validaCaracteresEspeciais(fieldSenhaCadastro.getText()))) {
@@ -153,12 +157,15 @@ public class LoginCadastro {
                             }else {
                                 usuario.setSenha(fieldSenhaCadastro.getText());
                                 usuario.setAtivoOnline(true);
+                                setMatriculaCapsula(usuario.getMatricula());
                                 uDao.alterar(usuario);  
                                 
                                 JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!!!","Alteração Senha",1);
                                 System.out.println("Cadastro realizado com sucesso!!!");
                                 
-                                new PerfilResumo();
+                                /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
+                                professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
+                                new InicioPaineis();
                                 //fechar janela
                             } 
                         }else{
@@ -216,12 +223,14 @@ public class LoginCadastro {
                         boolean validaPermissao = usu.getPermissao();
                         String validaSenha = usu.getSenha();
                         
+                        
                         if (!(validaSenha == null||validaSenha.equals(""))) {
                         
                         if (validaPermissao == true) {
                         
                             if ( validaSenha.equals(fieldSenhaLogin.getText())) {
                                 usu.setAtivoOnline(true);
+                                setMatriculaCapsula(usu.getMatricula());
                                 usuDao.alterar(usu);
                                 new Cadastro();
                                 System.out.println("Matricula: " + fieldSenhaLogin.getText());
@@ -234,8 +243,15 @@ public class LoginCadastro {
                         }else{
                         
                             if (validaSenha.equals(fieldSenhaLogin.getText())) {
-                                usuario.setAtivoOnline(true);
-                                new PerfilResumo();
+                                usu.setAtivoOnline(true);
+                                setMatriculaCapsula(usu.getMatricula());
+                                usuDao.alterar(usu);
+                                
+                                /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
+                                professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
+                                
+                                new InicioPaineis();
+                                
                                 System.out.println("Matricula: " + fieldSenhaLogin.getText());
                                 System.out.println("Permissão: " + validaPermissao);
                             } else {
@@ -427,4 +443,18 @@ public class LoginCadastro {
         }
         return result;
     } 
+
+    /**
+     * @return the matriculaCapsula
+     */
+    public String getMatriculaCapsula() {
+        return matriculaCapsula;
+    }
+
+    /**
+     * @param matriculaCapsula the matriculaCapsula to set
+     */
+    public void setMatriculaCapsula(String matriculaCapsula) {
+        this.matriculaCapsula = matriculaCapsula;
+    }
 }

@@ -5,10 +5,14 @@
  */
 package br.com.sysrate.tela;
 
+import br.com.sysrate.dao.UsuarioDao;
+import br.com.sysrate.entidade.Usuario;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,18 +26,13 @@ import javax.swing.JPanel;
 public class SysRate {
     
     private JFrame janela;
-    JButton botaoHome;
+    public JButton botaoHome = new JButton();
     
     public SysRate(){
         
-        janela();
         
-        botaoHome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-            janela.setVisible(true);
-            }
-        });
+            janela();
+        
         
     }
     
@@ -68,6 +67,36 @@ public class SysRate {
         botaoHome.setBackground(Color.LIGHT_GRAY);
         botaoHome.setBorder(null);
         
+        botaoHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    new InicioPaineis();
+                } catch (SQLException ex) {
+                    System.err.println("Erro botaoHome: "+ex.getMessage());
+                }
+            }
+        });
+        
+        Usuario u = new Usuario();
+        UsuarioDao uDao = new UsuarioDao();
+                    
+        
+                    
+        botaoLoginLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    
+                    
+                    new LoginCadastro();
+                    
+                } catch (SQLException x) {
+                    System.err.println("Erro LoginLogout: "+x.getMessage());
+                }
+            }
+        });
+        
         cabecalho.add(nomeUsuario);
         cabecalho.add(botaoLoginLogout);
         cabecalho.add(botaoHome);
@@ -78,7 +107,11 @@ public class SysRate {
     }
     
     public static void main(String[] args) throws SQLException{
-        new SysRate();
+        //new SysRate();
+        //new PerfilResumo();
+        //new Cadastro();
+        //new InicioPaineis();
+        new LoginCadastro();
     }
     
 }

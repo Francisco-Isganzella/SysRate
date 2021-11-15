@@ -33,7 +33,7 @@ public class InicioPaineis {
     
     //public JFrame janela;
     
-    public InicioPaineis() {
+    public InicioPaineis() throws SQLException{
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
@@ -182,11 +182,14 @@ public class InicioPaineis {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         
-                        
+                        try {
                             new LoginCadastro();
                             
                             //add(janelaAvaliacao);
                             //return janelaAvaliacao;
+                        } catch (SQLException ex) {
+                            System.err.println("Erro botao avaliar: "+ex.getMessage());;
+                        }
                         
                         }
                                             
