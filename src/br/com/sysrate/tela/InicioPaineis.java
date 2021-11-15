@@ -1,8 +1,10 @@
 package br.com.sysrate.tela;
 
+import br.com.sysrate.dao.DisciplinaDao;
 import br.com.sysrate.entidade.Usuario;
 import br.com.sysrate.dao.ProfessorDao;
 import br.com.sysrate.dao.TurmaDao;
+import br.com.sysrate.entidade.Disciplina;
 import br.com.sysrate.entidade.Professor;
 import br.com.sysrate.entidade.Turma;
 import java.awt.BorderLayout;
@@ -17,20 +19,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -126,7 +132,9 @@ public class InicioPaineis {
         public class CriacaoPainel extends JPanel {
             
             ProfessorDao pdao = new ProfessorDao();
-            Professor p = new Professor();            
+            Professor p = new Professor();
+            DisciplinaDao ddao = new DisciplinaDao();
+            Disciplina d = new Disciplina();
             
             public CriacaoPainel() throws SQLException {
                                 
@@ -149,8 +157,7 @@ public class InicioPaineis {
                 nomeProf.setFont(fonteNomeProf);
                 add(nomeProf);
                 nomeProf.setText(pdao.buscarNomeProfessor(i));
-                i = i + 1;
-                
+
                 JLabel cursoProf = new JLabel("CURSO");
                 cursoProf.setBounds(140, 50, 400, 20);
                 cursoProf.setFont(fonteNomeCurso);
@@ -166,6 +173,22 @@ public class InicioPaineis {
                 NomeDisciplinas.setBounds(220, 80, 300, 20);
                 NomeDisciplinas.setFont(fonteDisciplinas);
                 add(NomeDisciplinas);
+                List<Disciplina> ListaDisc = Arrays.asList();
+                ListaDisc = ddao.buscarDisciplinaProf(i);
+                
+                DefaultTableModel tabelaDisciplinas = new DefaultTableModel();
+                JTable tabela = new JTable(tabelaDisciplinas);
+                tabelaDisciplinas.addColumn("Disciplina");
+                
+                if (!ListaDisc.isEmpty()) { //verifica se a lista não esta vaxia
+                    for (Disciplina d : ListaDisc) { //percorre minha lista
+                        tabelaDisciplinas.addRow(new Object[]{d.getDisciplina()});
+                    }
+                }
+                System.out.println(tabelaDisciplinas.getValueAt(i, 0));
+
+                NomeDisciplinas.setText("");//o método de buscraDisciplina é feito por professorID
+                i = i + 1;
                                                 
                 JButton avaliar = new JButton("Avaliar");
                 avaliar.setBounds(32, 97, 80, 18);
