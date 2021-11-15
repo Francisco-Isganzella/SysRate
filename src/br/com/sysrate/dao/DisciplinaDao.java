@@ -103,4 +103,27 @@ public class DisciplinaDao {
             FabricaConexao.fecharConexao(conexao, preparando);
         }
     }
+    
+    public Disciplina pesquisarPorId(Integer id) throws SQLException {
+        Disciplina disciplina = null;
+        String consulta = "SELECT * FROM Disciplina d WHERE d.disciplinaID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setInt(1, id);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                disciplina = new Disciplina();
+                disciplina.setDisciplinaID(resultSet.getInt("disciplinaID"));
+                disciplina.setDisciplina(resultSet.getString("disciplina"));
+                disciplina.setVisivelDisciplina(resultSet.getBoolean("visivelDisciplina"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao pesquisar disciplina por id\n" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+        return disciplina;
+    }
+    
 }

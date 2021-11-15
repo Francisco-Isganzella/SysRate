@@ -34,7 +34,6 @@ public class LoginCadastro {
 
     private JPanel panelCadastro;
     private JPanel panelLogin;
-    private String matriculaCapsula;
     
     private JFrame janela;
 
@@ -165,7 +164,6 @@ public class LoginCadastro {
                                 
                                 usuario.setSenha(fieldSenhaCadastro.getText());
                                 usuario.setAtivoOnline(true);
-                                setMatriculaCapsula(usuario.getMatricula());
                                 uDao.alterar(usuario);  
                                 
                                 JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!!!","Alteração Senha",1);
@@ -173,9 +171,8 @@ public class LoginCadastro {
                                 
                                 /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
                                 professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
-                                // TESTE, APAGAR DEPOIS
-                                new PerfilResumo();
-                                //new InicioPaineis();
+                                new InicioPaineis();
+                                LoginCadastro.this.janela.dispose();
                                 //fechar janela
                             } 
                         }else{
@@ -251,6 +248,8 @@ public class LoginCadastro {
 
                                 usuDao.alterar(usu);
                                 new Cadastro();
+                                LoginCadastro.this.janela.dispose();
+                                
                                 System.out.println("Permissão: " + validaPermissao);
                             } else {
                                 System.err.println("ERRO LOGIN: Senha Incorreta");
@@ -274,11 +273,10 @@ public class LoginCadastro {
                                 
                                 /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
                                 professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
-                                // TESTE, APAGAR DEPOIS
-                                new PerfilResumo();
-                                //new InicioPaineis();
                                 
-                                System.out.println("Matricula: " + fieldSenhaLogin.getText());
+                                new InicioPaineis();
+                                LoginCadastro.this.janela.dispose();
+                                
                                 System.out.println("Permissão: " + validaPermissao);
                             } else {
                                 System.err.println("ERRO LOGIN: Senha Incorreta");
@@ -469,19 +467,5 @@ public class LoginCadastro {
         }
         return result;
     } 
-
-    /**
-     * @return the matriculaCapsula
-     */
-    public String getMatriculaCapsula() {
-        return matriculaCapsula;
-    }
-
-    /**
-     * @param matriculaCapsula the matriculaCapsula to set
-     */
-    public void setMatriculaCapsula(String matriculaCapsula) {
-        this.matriculaCapsula = matriculaCapsula;
-    }
 
 }

@@ -33,6 +33,7 @@ public class SysRate {
         
         janela();
         //janela.setVisible(true);
+                                
         
         
     }
@@ -81,8 +82,13 @@ public class SysRate {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 
-                janela();
-                janela.setVisible(true);
+                try {
+                    new InicioPaineis();
+                    janela.setVisible(false);
+                    
+                } catch (SQLException ex) {
+                    System.err.println("erro botaoHome:"+ex.getMessage());
+                }
                     
                 
             }
@@ -105,11 +111,13 @@ public class SysRate {
                         u.setUsuarioID(Validacao.getValidaID());
                         uDao.alterarLogin(u);
                         
-                        janela();
-                        janela.setVisible(true);
+                        new InicioPaineis();
+                        janela.setVisible(false);
                         
                     } else {
+                        janela.setVisible(false);
                         new LoginCadastro();
+                        
                     }
                     
                     
@@ -130,11 +138,7 @@ public class SysRate {
     }
     
     public static void main(String[] args) throws SQLException{
-        //new SysRate();
-        new PerfilResumo();
-        //new Cadastro();
-        //new InicioPaineis();
-        //new LoginCadastro();
+        new InicioPaineis();
     }
     
 }

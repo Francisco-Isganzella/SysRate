@@ -5,8 +5,15 @@
  */
 package br.com.sysrate.tela;
 
+import br.com.sysrate.dao.CursoDao;
+import br.com.sysrate.dao.DisciplinaDao;
 import br.com.sysrate.dao.NotasDao;
+import br.com.sysrate.dao.ProfessorDao;
+import br.com.sysrate.entidade.Curso;
+import br.com.sysrate.entidade.Disciplina;
 import br.com.sysrate.entidade.Notas;
+import br.com.sysrate.entidade.Professor;
+import br.com.sysrate.entidade.Usuario;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -44,6 +51,7 @@ public class PerfilResumo {
         ImageIcon imagemFotoPerfil = new ImageIcon(getClass().getResource("icons_prof.png"));
         
         JButton buttonSalvar;
+        JButton buttonCancelar;
         
         JRadioButton radioDidatica1;
         JRadioButton radioDidatica2;
@@ -80,24 +88,24 @@ public class PerfilResumo {
         JLabel labelFotoPerfil = new JLabel(imagemFotoPerfil);
         labelFotoPerfil.setBorder(BorderFactory.createMatteBorder(10, 10, 10, 10, Color.BLACK));
         labelFotoPerfil.setBackground(Color.BLACK);
-        labelFotoPerfil.setBounds(70, 75, 160, 160);
+        labelFotoPerfil.setBounds(70, 35, 160, 160);
         
         JLabel labelNomeProfessor = new JLabel("Professor: + Método Atributo Nome, Tabela Professor");
-        labelNomeProfessor.setBounds(40, 20, 400, 20);
+        labelNomeProfessor.setBounds(300, 45, 400, 40);
         labelNomeProfessor.setForeground(Color.BLACK);
-        labelNomeProfessor.setFont(new Font(null, Font.BOLD, 20) {
+        labelNomeProfessor.setFont(new Font(null, Font.BOLD, 30) {
         });
         
         JLabel labelNomeDisciplina = new JLabel("Disciplina: + Método Atributo Nome, Tabela Disciplina");
-        labelNomeDisciplina.setBounds(300, 185, 400, 20);
+        labelNomeDisciplina.setBounds(300, 120, 400, 30);
         labelNomeDisciplina.setForeground(Color.BLACK);
-        labelNomeDisciplina.setFont(new Font(null, Font.PLAIN, 16) {
+        labelNomeDisciplina.setFont(new Font(null, Font.PLAIN, 20) {
         });
         
         JLabel labelNomeCurso = new JLabel("Curso: + Método Atributo Nome, Tabela Curso");
-        labelNomeCurso.setBounds(300, 210, 400, 20);
+        labelNomeCurso.setBounds(300, 160, 400, 30);
         labelNomeCurso.setForeground(Color.BLACK);
-        labelNomeCurso.setFont(new Font(null, Font.PLAIN, 16) {
+        labelNomeCurso.setFont(new Font(null, Font.PLAIN, 20) {
         });
         
         
@@ -105,59 +113,60 @@ public class PerfilResumo {
         
         panelUP = new JPanel();
         panelUP.setLayout(null);
-        panelUP = painel(0, 30, 1000, 250, "");
+        panelUP = painel(0, 30, 1000, 230, "");
         panelUP.setBackground(Color.WHITE);
         panelUP.add(labelNomeProfessor);
         panelUP.add(labelFotoPerfil);
-        panelUP.add(buttonSalvar = new Button(830, 20, 130, 30, "Fazer Avaliação", Color.DARK_GRAY, Color.WHITE));
-        panelUP.add(label("EMOJI DESTAQUE", 400, 60, 180, 30, 16, Color.BLACK));
-        panelUP.add(label("NOTA RESUMO", 700, 60, 180, 30, 16, Color.BLACK));
         panelUP.add(labelNomeDisciplina);
         panelUP.add(labelNomeCurso);      
         
-        
         panelDOWN = new JPanel();
         panelDOWN.setLayout(null);
-        panelDOWN = painel(0, 295, 1000, 355, "");
+        panelDOWN = painel(0, 275, 1000, 375, "");
         panelDOWN.setBackground(Color.GRAY);
-        panelDOWN.add(labelTitulo("DIDÁTICA", 40, 20, 200, 30, 20, Color.BLACK));
-        panelDOWN.add(labelTitulo("QUALIDADE DO MATERIAL", 40, 70, 300, 30, 20, Color.BLACK));
-        panelDOWN.add(labelTitulo("QUALIDADE CORREÇÃO", 40, 120, 300, 30, 20, Color.BLACK));
-        panelDOWN.add(labelTitulo("RECEPTIVIDADE", 40, 170, 300, 30, 20, Color.BLACK));
-        panelDOWN.add(labelTitulo("RESPEITO", 40, 220, 300, 30, 20, Color.BLACK));
-        panelDOWN.add(label("MUITO RUIM", 390, 10, 120, 20, 20, Color.LIGHT_GRAY));
+        panelDOWN.add(labelTitulo("DIDÁTICA", 40, 50, 200, 30, 20, Color.BLACK));
+        panelDOWN.add(labelTitulo("QUALIDADE DO MATERIAL", 40, 100, 300, 30, 20, Color.BLACK));
+        panelDOWN.add(labelTitulo("QUALIDADE CORREÇÃO", 40, 150, 300, 30, 20, Color.BLACK));
+        panelDOWN.add(labelTitulo("RECEPTIVIDADE", 40, 200, 300, 30, 20, Color.BLACK));
+        panelDOWN.add(labelTitulo("RESPEITO", 40, 250, 300, 30, 20, Color.BLACK));
+        panelDOWN.add(label("MUITO RUIM", 335, 10, 120, 20, 20, Color.LIGHT_GRAY));
+        panelDOWN.add(label("RUIM", 495, 10, 120, 20, 20, Color.LIGHT_GRAY));
+        panelDOWN.add(label("MÉDIO", 610, 10, 120, 20, 20, Color.LIGHT_GRAY));
+        panelDOWN.add(label("BOM", 740, 10, 120, 20, 20, Color.LIGHT_GRAY));
+        panelDOWN.add(label("MUITO BOM", 835, 10, 120, 20, 20, Color.LIGHT_GRAY));
         
-        panelDOWN.add(radioDidatica1 = new Radio(390, 30));
-        panelDOWN.add(radioDidatica2 = new Radio(510, 30));
-        panelDOWN.add(radioDidatica3 = new Radio(630, 30));
-        panelDOWN.add(radioDidatica4 = new Radio(750, 30));
-        panelDOWN.add(radioDidatica5 = new Radio(870, 30));
+        panelDOWN.add(radioDidatica1 = new Radio(390, 55));
+        panelDOWN.add(radioDidatica2 = new Radio(510, 55));
+        panelDOWN.add(radioDidatica3 = new Radio(630, 55));
+        panelDOWN.add(radioDidatica4 = new Radio(750, 55));
+        panelDOWN.add(radioDidatica5 = new Radio(870, 55));
         
-        panelDOWN.add(radioQualidadeMaterial1 = new Radio(390, 80));
-        panelDOWN.add(radioQualidadeMaterial2 = new Radio(510, 80));
-        panelDOWN.add(radioQualidadeMaterial3 = new Radio(630, 80));
-        panelDOWN.add(radioQualidadeMaterial4 = new Radio(750, 80));
-        panelDOWN.add(radioQualidadeMaterial5 = new Radio(870, 80));
+        panelDOWN.add(radioQualidadeMaterial1 = new Radio(390, 105));
+        panelDOWN.add(radioQualidadeMaterial2 = new Radio(510, 105));
+        panelDOWN.add(radioQualidadeMaterial3 = new Radio(630, 105));
+        panelDOWN.add(radioQualidadeMaterial4 = new Radio(750, 105));
+        panelDOWN.add(radioQualidadeMaterial5 = new Radio(870, 105));
         
-        panelDOWN.add(radioQualidadeCorrecao1 = new Radio(390, 130));
-        panelDOWN.add(radioQualidadeCorrecao2 = new Radio(510, 130));
-        panelDOWN.add(radioQualidadeCorrecao3 = new Radio(630, 130));
-        panelDOWN.add(radioQualidadeCorrecao4 = new Radio(750, 130));
-        panelDOWN.add(radioQualidadeCorrecao5 = new Radio(870, 130));
+        panelDOWN.add(radioQualidadeCorrecao1 = new Radio(390, 155));
+        panelDOWN.add(radioQualidadeCorrecao2 = new Radio(510, 155));
+        panelDOWN.add(radioQualidadeCorrecao3 = new Radio(630, 155));
+        panelDOWN.add(radioQualidadeCorrecao4 = new Radio(750, 155));
+        panelDOWN.add(radioQualidadeCorrecao5 = new Radio(870, 155));
         
-        panelDOWN.add(radioReceptividade1 = new Radio(390, 180));
-        panelDOWN.add(radioReceptividade2 = new Radio(510, 180));
-        panelDOWN.add(radioReceptividade3 = new Radio(630, 180));
-        panelDOWN.add(radioReceptividade4 = new Radio(750, 180));
-        panelDOWN.add(radioReceptividade5 = new Radio(870, 180));
+        panelDOWN.add(radioReceptividade1 = new Radio(390, 205));
+        panelDOWN.add(radioReceptividade2 = new Radio(510, 205));
+        panelDOWN.add(radioReceptividade3 = new Radio(630, 205));
+        panelDOWN.add(radioReceptividade4 = new Radio(750, 205));
+        panelDOWN.add(radioReceptividade5 = new Radio(870, 205));
         
-        panelDOWN.add(radioRespeito1 = new Radio(390, 230));
-        panelDOWN.add(radioRespeito2 = new Radio(510, 230));
-        panelDOWN.add(radioRespeito3 = new Radio(630, 230));
-        panelDOWN.add(radioRespeito4 = new Radio(750, 230));
-        panelDOWN.add(radioRespeito5 = new Radio(870, 230));
+        panelDOWN.add(radioRespeito1 = new Radio(390, 255));
+        panelDOWN.add(radioRespeito2 = new Radio(510, 255));
+        panelDOWN.add(radioRespeito3 = new Radio(630, 255));
+        panelDOWN.add(radioRespeito4 = new Radio(750, 255));
+        panelDOWN.add(radioRespeito5 = new Radio(870, 255));
         
-        panelDOWN.add(buttonSalvar = new Button(900, 200, 100, 20, "Salvar", Color.red, Color.yellow));
+        panelDOWN.add(buttonSalvar = new Button(630, 295, 100, 25, "Salvar", Color.DARK_GRAY, Color.WHITE));
+        panelDOWN.add(buttonCancelar = new Button(750, 295, 100, 25, "Cancelar", Color.LIGHT_GRAY, Color.WHITE));
         
         ButtonGroup didatica = new ButtonGroup();
         didatica.add(radioDidatica1);
@@ -194,6 +203,30 @@ public class PerfilResumo {
         respeito.add(radioRespeito4);
         respeito.add(radioRespeito5);
         
+        
+        Professor p = new Professor();
+        ProfessorDao pDao = new ProfessorDao();
+        
+        Disciplina d = new Disciplina();
+        DisciplinaDao dDao = new DisciplinaDao();
+        
+        Curso c = new Curso();
+        CursoDao cDao = new CursoDao();
+        
+        
+        try {
+            c = cDao.pesquisarPorId(2);
+            p = pDao.pesquisarPorId(1);
+            d = dDao.pesquisarPorId(1);
+            
+        } catch (SQLException ex) {
+            System.err.println("Erro pesquisar por ID: "+ex.getMessage());
+        }
+        
+        labelNomeProfessor.setText(p.getNomeProfessor());
+        labelNomeDisciplina.setText(d.getDisciplina());
+        labelNomeCurso.setText(c.getCurso());
+        
         buttonSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,29 +237,48 @@ public class PerfilResumo {
                 Notas n = new Notas();
                 NotasDao nDao = new NotasDao();
                 n.setProfessorID(1);
-                
-                int didatica = NotaRecebida.notaRecebida(radioDidatica1, radioDidatica2, radioDidatica3, radioDidatica4, radioDidatica5);
-                n.setDidatica(didatica);
-                
-                int qualidadeMaterial = NotaRecebida.notaRecebida(radioQualidadeMaterial1, radioQualidadeMaterial2, radioQualidadeMaterial3, radioQualidadeMaterial4, radioQualidadeMaterial5);
-                n.setQualidadeMaterial(qualidadeMaterial);
-                
-                int qualidadeCorrecao = NotaRecebida.notaRecebida(radioQualidadeCorrecao1, radioQualidadeCorrecao2, radioQualidadeCorrecao3, radioQualidadeCorrecao4, radioQualidadeCorrecao5);
-                n.setQualidadeCorrecao(qualidadeCorrecao);
-                
-                int receptividade = NotaRecebida.notaRecebida(radioReceptividade1, radioReceptividade2, radioReceptividade3, radioReceptividade4, radioReceptividade5);
-                n.setReceptividade(receptividade);
-                
-                int respeito = NotaRecebida.notaRecebida(radioRespeito1, radioRespeito2, radioRespeito3, radioRespeito4, radioRespeito5);
-                n.setRespeito(respeito);
-                
                 try {
-                    nDao.salvar(n);
                     
+                if (!(radioDidatica1.isSelected() || radioDidatica2.isSelected() || radioDidatica3.isSelected() || radioDidatica4.isSelected() || radioDidatica5.isSelected())){
+                    JOptionPane.showMessageDialog(null, "Você deve atribuir ao menos uma nota a cada tópico!","Erro Avaliação",0);
+                    System.err.println("O Usuário deve atribuir ao menos uma nota a cada tópico");
+                     
+                } else if(!(radioQualidadeMaterial1.isSelected() || radioQualidadeMaterial2.isSelected() || radioQualidadeMaterial3.isSelected() || radioQualidadeMaterial4.isSelected() || radioQualidadeMaterial5.isSelected())){        
+                    JOptionPane.showMessageDialog(null, "Você deve atribuir ao menos uma nota a cada tópico!","Erro Avaliação",0);
+                    System.err.println("O Usuário deve atribuir ao menos uma nota a cada tópico");
+                    
+                } else if (!(radioReceptividade1.isSelected() || radioReceptividade2.isSelected() || radioReceptividade3.isSelected() || radioReceptividade4.isSelected() || radioReceptividade5.isSelected())){
+                    JOptionPane.showMessageDialog(null, "Você deve atribuir ao menos uma nota a cada tópico!","Erro Avaliação",0);
+                    System.err.println("O Usuário deve atribuir ao menos uma nota a cada tópico");
+                        
+                        
+                } else if (!(radioRespeito1.isSelected() || radioRespeito2.isSelected() || radioRespeito3.isSelected() || radioRespeito4.isSelected() || radioRespeito5.isSelected())){        
+                    JOptionPane.showMessageDialog(null, "Você deve atribuir ao menos uma nota a cada tópico!","Erro Avaliação",0);
+                    System.err.println("O Usuário deve atribuir ao menos uma nota a cada tópico");
+                            
+                }else {
+                    
+                    int didatica = NotaRecebida.notaRecebida(radioDidatica1, radioDidatica2, radioDidatica3, radioDidatica4, radioDidatica5);
+                    n.setDidatica(didatica);
+                    int qualidadeMaterial = NotaRecebida.notaRecebida(radioQualidadeMaterial1, radioQualidadeMaterial2, radioQualidadeMaterial3, radioQualidadeMaterial4, radioQualidadeMaterial5);
+                    n.setQualidadeMaterial(qualidadeMaterial);
+                
+                    int qualidadeCorrecao = NotaRecebida.notaRecebida(radioQualidadeCorrecao1, radioQualidadeCorrecao2, radioQualidadeCorrecao3, radioQualidadeCorrecao4, radioQualidadeCorrecao5);
+                    n.setQualidadeCorrecao(qualidadeCorrecao);
+                
+                    int receptividade = NotaRecebida.notaRecebida(radioReceptividade1, radioReceptividade2, radioReceptividade3, radioReceptividade4, radioReceptividade5);
+                    n.setReceptividade(receptividade);
+                
+                    int respeito = NotaRecebida.notaRecebida(radioRespeito1, radioRespeito2, radioRespeito3, radioRespeito4, radioRespeito5);
+                    n.setRespeito(respeito);
+                
+                
+                    nDao.salvar(n);
                     JOptionPane.showMessageDialog(null, "Avaliação realizada com sucesso!!!","Avaliação",1);
                                 System.out.println("Avaliação realizada com sucesso!!!");
                     
-                    //new Classe Tayna
+                    new InicioPaineis();
+                }
                     
                 } catch (SQLException x) {
                     System.err.println("Erro ao salvar notas: "+ x.getMessage());
@@ -235,7 +287,16 @@ public class PerfilResumo {
             }
         });
         
-        
+        buttonCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                didatica.clearSelection();
+                qualidadeMaterial.clearSelection();
+                qualidadeCorrecao.clearSelection();
+                receptividade.clearSelection();
+                respeito.clearSelection();
+            }
+        });
         
         janela.getContentPane().add(panelUP);
         janela.getContentPane().add(panelDOWN);

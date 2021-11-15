@@ -18,6 +18,7 @@ public class Validacao {
     private static String validaNome = "";
     private static String validaMatr="";
     private static Integer validaID=0;
+    private static Integer validaCursoID=0;
     
     
     public static Boolean validaVazio(String a){
@@ -110,6 +111,20 @@ public class Validacao {
      */
     public static void setValidaID(Integer aValidaID) {
         validaID = aValidaID;
+    }
+
+    /**
+     * @return the validaCursoID
+     */
+    public static Integer getValidaCursoID() {
+        return validaCursoID;
+    }
+
+    /**
+     * @param aValidaCursoID the validaCursoID to set
+     */
+    public static void setValidaCursoID(Integer aValidaCursoID) {
+        validaCursoID = aValidaCursoID;
     }
 
 
