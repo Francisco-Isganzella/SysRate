@@ -31,7 +31,8 @@ public class SysRate {
     public SysRate(){
         
         
-            janela();
+        janela();
+        //janela.setVisible(true);
         
         
     }
@@ -67,14 +68,23 @@ public class SysRate {
         botaoHome.setBackground(Color.LIGHT_GRAY);
         botaoHome.setBorder(null);
         
+       
+        if (Validacao.getValidaOnline() == true) {
+            botaoLoginLogout.setText("Logout");
+            nomeUsuario.setText(Validacao.getValidaNome());
+        } else {
+            botaoLoginLogout.setText("Login");
+        }
+        
+        
         botaoHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                try {
-                    new InicioPaineis();
-                } catch (SQLException ex) {
-                    System.err.println("Erro botaoHome: "+ex.getMessage());
-                }
+                
+                janela();
+                janela.setVisible(true);
+                    
+                
             }
         });
         
@@ -87,9 +97,22 @@ public class SysRate {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    if (Validacao.getValidaOnline() == true) {
+                        Validacao.setValidaOnline(Boolean.FALSE);
+                        
+                        u.setAtivoOnline(Boolean.FALSE);
+                        
+                        u.setUsuarioID(Validacao.getValidaID());
+                        uDao.alterarLogin(u);
+                        
+                        janela();
+                        janela.setVisible(true);
+                        
+                    } else {
+                        new LoginCadastro();
+                    }
                     
                     
-                    new LoginCadastro();
                     
                 } catch (SQLException x) {
                     System.err.println("Erro LoginLogout: "+x.getMessage());
@@ -108,10 +131,10 @@ public class SysRate {
     
     public static void main(String[] args) throws SQLException{
         //new SysRate();
-        //new PerfilResumo();
+        new PerfilResumo();
         //new Cadastro();
         //new InicioPaineis();
-        new LoginCadastro();
+        //new LoginCadastro();
     }
     
 }

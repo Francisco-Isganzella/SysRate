@@ -47,7 +47,6 @@ public class LoginCadastro {
     
             
     public LoginCadastro () throws SQLException {
-        
         janela = new SysRate().janela();
         
         JTextField fieldMatriculaCadastro;
@@ -155,6 +154,15 @@ public class LoginCadastro {
                                 JOptionPane.showMessageDialog(null, "Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúsculas\n" + "1 Número\n" + "1 Caractere especial","Erro",1);
                             
                             }else {
+                                // USUARIO ID   
+                                Validacao.setValidaID(usuario.getUsuarioID());
+                                // USUARIO ONLINE
+                                Validacao.setValidaOnline(true);
+                                // NOME USUARIO
+                                Validacao.setValidaNome(usuario.getNomeUsuario());
+                                // MATRICULA
+                                Validacao.setValidaMatr(usuario.getMatricula());
+                                
                                 usuario.setSenha(fieldSenhaCadastro.getText());
                                 usuario.setAtivoOnline(true);
                                 setMatriculaCapsula(usuario.getMatricula());
@@ -165,7 +173,9 @@ public class LoginCadastro {
                                 
                                 /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
                                 professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
-                                new InicioPaineis();
+                                // TESTE, APAGAR DEPOIS
+                                new PerfilResumo();
+                                //new InicioPaineis();
                                 //fechar janela
                             } 
                         }else{
@@ -230,10 +240,17 @@ public class LoginCadastro {
                         
                             if ( validaSenha.equals(fieldSenhaLogin.getText())) {
                                 usu.setAtivoOnline(true);
-                                setMatriculaCapsula(usu.getMatricula());
+                                // USUARIO ID   
+                                Validacao.setValidaID(usu.getUsuarioID());
+                                // USUARIO ONLINE
+                                Validacao.setValidaOnline(true);
+                                // NOME USUARIO
+                                Validacao.setValidaNome(usu.getNomeUsuario());
+                                // MATRICULA
+                                Validacao.setValidaMatr(usu.getMatricula());
+
                                 usuDao.alterar(usu);
                                 new Cadastro();
-                                System.out.println("Matricula: " + fieldSenhaLogin.getText());
                                 System.out.println("Permissão: " + validaPermissao);
                             } else {
                                 System.err.println("ERRO LOGIN: Senha Incorreta");
@@ -244,13 +261,22 @@ public class LoginCadastro {
                         
                             if (validaSenha.equals(fieldSenhaLogin.getText())) {
                                 usu.setAtivoOnline(true);
-                                setMatriculaCapsula(usu.getMatricula());
+                                // USUARIO ID   
+                                Validacao.setValidaID(usu.getUsuarioID());
+                                // USUARIO ONLINE
+                                Validacao.setValidaOnline(true);
+                                // NOME USUARIO
+                                Validacao.setValidaNome(usu.getNomeUsuario());
+                                // MATRICULA
+                                Validacao.setValidaMatr(usu.getMatricula());
+                                
                                 usuDao.alterar(usu);
                                 
                                 /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
                                 professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
-                                
-                                new InicioPaineis();
+                                // TESTE, APAGAR DEPOIS
+                                new PerfilResumo();
+                                //new InicioPaineis();
                                 
                                 System.out.println("Matricula: " + fieldSenhaLogin.getText());
                                 System.out.println("Permissão: " + validaPermissao);
@@ -457,4 +483,5 @@ public class LoginCadastro {
     public void setMatriculaCapsula(String matriculaCapsula) {
         this.matriculaCapsula = matriculaCapsula;
     }
+
 }
