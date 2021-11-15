@@ -14,6 +14,11 @@ import java.sql.SQLException;
  * @author franc
  */
 public class Validacao {
+    private static Boolean validaOnline = false;
+    private static String validaNome = "";
+    private static String validaMatr="";
+    private static Integer validaID=0;
+    private static Integer validaCursoID=0;
     
     
     public static Boolean validaVazio(String a){
@@ -38,4 +43,91 @@ public class Validacao {
             return true;
         }
     }
+    
+    /*public static Boolean validaOnline2(String matricula) throws SQLException{
+    UsuarioDao uDao = new UsuarioDao();
+    Usuario u = new Usuario();
+    
+    u = uDao.pesquisarPorMatricula(matricula);
+    if (u.getAtivoOnline() == true) {
+    return true;
+    } else{
+    return false;
+    }
+    }*/
+    
+
+    /**
+     * @return the validaOnline
+     */
+    public static Boolean getValidaOnline() {
+        return validaOnline;
+    }
+
+    /**
+     * @param aValidaOnline the validaOnline to set
+     */
+    public static void setValidaOnline(Boolean aValidaOnline) {
+        validaOnline = aValidaOnline;
+    }
+
+    /**
+     * @return the validaNome
+     */
+    public static String getValidaNome() {
+        return validaNome;
+    }
+
+    /**
+     * @param aValidaNome the validaNome to set
+     */
+    public static void setValidaNome(String aValidaNome) {
+        validaNome = aValidaNome;
+    }
+
+    /**
+     * @return the validaMatr
+     */
+    public static String getValidaMatr() {
+        return validaMatr;
+    }
+
+    /**
+     * @param aValidaMatr the validaMatr to set
+     */
+    public static void setValidaMatr(String aValidaMatr) {
+        validaMatr = aValidaMatr;
+    }
+
+    /**
+     * @return the validaID
+     */
+    public static Integer getValidaID() {
+        return validaID;
+    }
+
+    /**
+     * @param aValidaID the validaID to set
+     */
+    public static void setValidaID(Integer aValidaID) {
+        validaID = aValidaID;
+    }
+
+    /**
+     * @return the validaCursoID
+     */
+    public static Integer getValidaCursoID() {
+        return validaCursoID;
+    }
+
+    /**
+     * @param aValidaCursoID the validaCursoID to set
+     */
+    public static void setValidaCursoID(Integer aValidaCursoID) {
+        validaCursoID = aValidaCursoID;
+    }
+
+
+    
+    
 }

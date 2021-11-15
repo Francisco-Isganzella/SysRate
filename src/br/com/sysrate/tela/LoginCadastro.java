@@ -31,6 +31,9 @@ import javax.swing.event.MouseInputListener;
  * @author migue
  */
 public class LoginCadastro {
+
+    private JPanel panelCadastro;
+    private JPanel panelLogin;
     
     private JFrame janela;
 
@@ -40,11 +43,9 @@ public class LoginCadastro {
      */
     
     
-    private JPanel panelCadastro;
-    private JPanel panelLogin;
     
-    public LoginCadastro (){
-        
+            
+    public LoginCadastro () throws SQLException {
         janela = new SysRate().janela();
         
         JTextField fieldMatriculaCadastro;
@@ -143,6 +144,7 @@ public class LoginCadastro {
                         }
                         String validaSenha = usuario.getSenha();
                         
+                        
                         if (validaSenha == null||validaSenha.equals("")) {
                             
                             if (!(LoginCadastro.validaCaracteresEspeciais(fieldSenhaCadastro.getText()))) {
@@ -150,6 +152,15 @@ public class LoginCadastro {
                                 JOptionPane.showMessageDialog(null, "Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúsculas\n" + "1 Número\n" + "1 Caractere especial","Erro",1);
                             
                             }else {
+                                // USUARIO ID   
+                                Validacao.setValidaID(usuario.getUsuarioID());
+                                // USUARIO ONLINE
+                                Validacao.setValidaOnline(true);
+                                // NOME USUARIO
+                                Validacao.setValidaNome(usuario.getNomeUsuario());
+                                // MATRICULA
+                                Validacao.setValidaMatr(usuario.getMatricula());
+                                
                                 usuario.setSenha(fieldSenhaCadastro.getText());
                                 usuario.setAtivoOnline(true);
                                 uDao.alterar(usuario);  
@@ -157,7 +168,10 @@ public class LoginCadastro {
                                 JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!!!","Alteração Senha",1);
                                 System.out.println("Cadastro realizado com sucesso!!!");
                                 
-                                new PerfilResumo();
+                                /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
+                                professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
+                                new InicioPaineis();
+                                LoginCadastro.this.janela.dispose();
                                 //fechar janela
                             } 
                         }else{
@@ -215,15 +229,26 @@ public class LoginCadastro {
                         boolean validaPermissao = usu.getPermissao();
                         String validaSenha = usu.getSenha();
                         
+                        
                         if (!(validaSenha == null||validaSenha.equals(""))) {
                         
                         if (validaPermissao == true) {
                         
                             if ( validaSenha.equals(fieldSenhaLogin.getText())) {
                                 usu.setAtivoOnline(true);
+                                // USUARIO ID   
+                                Validacao.setValidaID(usu.getUsuarioID());
+                                // USUARIO ONLINE
+                                Validacao.setValidaOnline(true);
+                                // NOME USUARIO
+                                Validacao.setValidaNome(usu.getNomeUsuario());
+                                // MATRICULA
+                                Validacao.setValidaMatr(usu.getMatricula());
+
                                 usuDao.alterar(usu);
                                 new Cadastro();
-                                System.out.println("Matricula: " + fieldSenhaLogin.getText());
+                                LoginCadastro.this.janela.dispose();
+                                
                                 System.out.println("Permissão: " + validaPermissao);
                             } else {
                                 System.err.println("ERRO LOGIN: Senha Incorreta");
@@ -233,9 +258,24 @@ public class LoginCadastro {
                         }else{
                         
                             if (validaSenha.equals(fieldSenhaLogin.getText())) {
-                                usuario.setAtivoOnline(true);
-                                new PerfilResumo();
-                                System.out.println("Matricula: " + fieldSenhaLogin.getText());
+                                usu.setAtivoOnline(true);
+                                // USUARIO ID   
+                                Validacao.setValidaID(usu.getUsuarioID());
+                                // USUARIO ONLINE
+                                Validacao.setValidaOnline(true);
+                                // NOME USUARIO
+                                Validacao.setValidaNome(usu.getNomeUsuario());
+                                // MATRICULA
+                                Validacao.setValidaMatr(usu.getMatricula());
+                                
+                                usuDao.alterar(usu);
+                                
+                                /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
+                                professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
+                                
+                                new InicioPaineis();
+                                LoginCadastro.this.janela.dispose();
+                                
                                 System.out.println("Permissão: " + validaPermissao);
                             } else {
                                 System.err.println("ERRO LOGIN: Senha Incorreta");
@@ -426,4 +466,5 @@ public class LoginCadastro {
         }
         return result;
     } 
+
 }
