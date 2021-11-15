@@ -22,7 +22,7 @@ public class FabricaConexao {
             Class.forName("com.mysql.cj.jdbc.Driver");
             driver = DriverManager.getConnection("jdbc:mysql://localhost:3306/sysRate"
             +"?useTimezone=true&serverTimezone=America/Sao_Paulo&zeroDateTimeBehavior=convertToNull",
-                    "root", "#Harrypotter160197!!!");
+                    "root", "SENHA");
         } catch (Exception e) {
             System.err.println("Erro ao conectar com o banco" + e.getMessage());
         }
