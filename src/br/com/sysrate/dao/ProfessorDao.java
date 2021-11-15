@@ -121,4 +121,26 @@ public class ProfessorDao {
     }
     
     
+    public Professor pesquisarPorId(Integer id) throws SQLException {
+        Professor professor = null;
+        String consulta = "SELECT * FROM Professor p WHERE p.professorID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setInt(1, id);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                professor = new Professor();
+                professor.setProfessorID(resultSet.getInt("professorID"));
+                professor.setNomeProfessor(resultSet.getString("nomeProfessor"));
+                professor.setVisivelProfessor(resultSet.getBoolean("visivelProfessor"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao pesquisar professor por id\n" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+        return professor;
+    }
+    
 }

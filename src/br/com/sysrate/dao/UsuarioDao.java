@@ -159,4 +159,19 @@ public class UsuarioDao {
          FabricaConexao.fecharConexao(conexao, preparando);
      }
     }
+    
+    public void alterarLogin (Usuario usuario) throws SQLException {
+        String sql = "UPDATE Usuario SET ativoOnline=? where usuarioID=?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(sql);
+            preparando.setBoolean(1, usuario.getAtivoOnline());
+            preparando.setInt(2, usuario.getUsuarioID());
+            preparando.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erro ao atualizar fazendo login: "+ e.getMessage());
+        }finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+    }
 }

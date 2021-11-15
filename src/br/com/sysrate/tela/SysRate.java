@@ -5,10 +5,14 @@
  */
 package br.com.sysrate.tela;
 
+import br.com.sysrate.dao.UsuarioDao;
+import br.com.sysrate.entidade.Usuario;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,18 +26,15 @@ import javax.swing.JPanel;
 public class SysRate {
     
     private JFrame janela;
-    JButton botaoHome;
+    public JButton botaoHome = new JButton();
     
     public SysRate(){
         
-        janela();
         
-        botaoHome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-            janela.setVisible(true);
-            }
-        });
+        janela();
+        //janela.setVisible(true);
+                                
+        
         
     }
     
@@ -68,6 +69,65 @@ public class SysRate {
         botaoHome.setBackground(Color.LIGHT_GRAY);
         botaoHome.setBorder(null);
         
+       
+        if (Validacao.getValidaOnline() == true) {
+            botaoLoginLogout.setText("Logout");
+            nomeUsuario.setText(Validacao.getValidaNome());
+        } else {
+            botaoLoginLogout.setText("Login");
+        }
+        
+        
+        botaoHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                
+                try {
+                    new InicioPaineis();
+                    janela.setVisible(false);
+                    
+                } catch (SQLException ex) {
+                    System.err.println("erro botaoHome:"+ex.getMessage());
+                }
+                    
+                
+            }
+        });
+        
+        Usuario u = new Usuario();
+        UsuarioDao uDao = new UsuarioDao();
+                    
+        
+                    
+        botaoLoginLogout.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    if (Validacao.getValidaOnline() == true) {
+                        Validacao.setValidaOnline(Boolean.FALSE);
+                        
+                        u.setAtivoOnline(Boolean.FALSE);
+                        
+                        u.setUsuarioID(Validacao.getValidaID());
+                        uDao.alterarLogin(u);
+                        
+                        new InicioPaineis();
+                        janela.setVisible(false);
+                        
+                    } else {
+                        janela.setVisible(false);
+                        new LoginCadastro();
+                        
+                    }
+                    
+                    
+                    
+                } catch (SQLException x) {
+                    System.err.println("Erro LoginLogout: "+x.getMessage());
+                }
+            }
+        });
+        
         cabecalho.add(nomeUsuario);
         cabecalho.add(botaoLoginLogout);
         cabecalho.add(botaoHome);
@@ -78,7 +138,7 @@ public class SysRate {
     }
     
     public static void main(String[] args) throws SQLException{
-        new SysRate();
+        new InicioPaineis();
     }
     
 }
