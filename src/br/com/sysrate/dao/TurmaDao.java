@@ -24,7 +24,7 @@ public class TurmaDao {
     protected ResultSet resultSet;
     
     public void salvar(Turma turma) throws SQLException{
-        String sql = "INSERT INTO Turma(disciplinaID, professorID, cursoID, turma, visivel) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO Turma(disciplinaID, professorID, cursoID, turma, visivelTurma) VALUES (?,?,?,?,?)";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -32,11 +32,8 @@ public class TurmaDao {
             preparando.setInt(2, turma.getProfessorID());
             preparando.setInt(3, turma.getCursoID());
             preparando.setString(4, turma.getTurma());
-            preparando.setBoolean(5, turma.getVisivel());
+            preparando.setBoolean(5, turma.getVisivelTurma());
             preparando.executeUpdate();
-            //resultSet.next();
-            //turma.setCursoID(resultSet.getInt(1));
-            
             
         } catch (SQLException e) {
             System.err.println("Ocorreu um erro ao salvar a turma:" + e.getMessage());
@@ -60,7 +57,7 @@ public class TurmaDao {
                 t.setProfessorID(resultSet.getInt("professorID"));
                 t.setCursoID(resultSet.getInt("cursoID"));
                 t.setTurma(resultSet.getString("turma"));
-                t.setVisivel(resultSet.getBoolean("visivel"));
+                t.setVisivelTurma(resultSet.getBoolean("visivelTurma"));
                 listaTurma.add(t);
             }
         } catch (SQLException e) {
@@ -74,7 +71,7 @@ public class TurmaDao {
     public List<Turma> listarTurmaInner() throws SQLException{
         List<Turma> listaTurma = new ArrayList();
         
-        String consulta = "SELECT * FROM turma t INNER JOIN professor p on p.professorID = t.professorID INNER JOIN disciplina d on d.disciplinaID = t.disciplinaID INNER JOIN curso c on c.cursoID = t.cursoID";
+        String consulta = "SELECT * FROM turma t INNER JOIN professor p on p.professorID = t.professorID INNER JOIN disciplina d on d.disciplinaID = t.disciplinaID INNER JOIN curso c on c.cursoID = t.cursoID ORDER BY p.nomeProfessor";
         
         try {
             conexao = FabricaConexao.abrirConexao();
@@ -87,7 +84,7 @@ public class TurmaDao {
                 t.setTurma(resultSet.getString("turma"));
                 t.setDisciplina(resultSet.getString("d.disciplina"));
                 t.setCurso(resultSet.getString("c.curso"));
-                t.setVisivel(resultSet.getBoolean("visivel"));
+                t.setVisivelTurma(resultSet.getBoolean("visivelTurma"));
                 
                 listaTurma.add(t);
             }
@@ -100,11 +97,11 @@ public class TurmaDao {
     }
     
     public void alterar(Turma turma) throws SQLException {
-        String sql = "UPDATE Turma SET visivel = ?, turma = ?, disciplinaID = ?, cursoID = ? WHERE turmaID = ?";
+        String sql = "UPDATE Turma SET visivelTurma = ?, turma = ?, disciplinaID = ?, cursoID = ? WHERE turmaID = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(sql);
-            preparando.setBoolean(1, turma.getVisivel());
+            preparando.setBoolean(1, turma.getVisivelTurma());
             preparando.setString(2, turma.getTurma());
             preparando.setInt(5, turma.getTurmaID());
             preparando.setInt(3, turma.getDisciplinaID());

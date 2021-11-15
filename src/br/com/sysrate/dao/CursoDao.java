@@ -24,17 +24,14 @@ public class CursoDao {
     protected ResultSet resultSet;
     
     public void salvar(Curso curso) throws SQLException{
-        String sql = "INSERT INTO Curso (curso, visivel) VALUES (?,?)";
+        String sql = "INSERT INTO Curso (curso, visivelCurso) VALUES (?,?)";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparando.setString(1, curso.getCurso());
-            preparando.setBoolean(2, curso.getVisivel());
+            preparando.setBoolean(2, curso.getVisivelCurso());
             preparando.executeUpdate();
             preparando.getGeneratedKeys();
-            //resultSet.next();
-            //curso.setCursoID(resultSet.getInt(1));
-            
             
         } catch (SQLException e) {
             System.err.println("Ocorreu um erro ao salvar o curso:" + e.getMessage());
@@ -45,24 +42,20 @@ public class CursoDao {
     
     public Curso pesquisarPorNome(String nome) throws SQLException{
         Curso curso = null;
-        //String consulta = "SELECT * FROM Curso c WHERE c.curso like ?";
         String consulta = "SELECT * FROM curso c "
                 + "WHERE c.curso = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
-            //preparando.setString(1, "%" + nome + "%");
             preparando.setString(1, nome);
             resultSet = preparando.executeQuery();
             
             if (resultSet.next()) {
                 curso = new Curso();
                 curso.setCursoID(resultSet.getInt("cursoID"));
-                curso.setVisivel(resultSet.getBoolean("visivel"));
+                curso.setVisivelCurso(resultSet.getBoolean("visivelCurso"));
                 curso.setCurso(resultSet.getString("curso"));
             }
-            
-            //System.out.println(curso.getCurso());
         } catch (SQLException e) {
             System.err.println("Erro ao pesquisar curso por nome:"+e.getMessage());
         } finally {
@@ -73,7 +66,7 @@ public class CursoDao {
     
     public List<Curso> listarCurso() throws SQLException{
         List<Curso> listaCurso = new ArrayList<Curso>();
-        String consulta = "SELECT * FROM Curso";
+        String consulta = "SELECT * FROM Curso c ORDER BY c.curso";
         
         try {
             conexao = FabricaConexao.abrirConexao();
@@ -82,7 +75,7 @@ public class CursoDao {
             while (resultSet.next()) {                
                 Curso c = new Curso();
                 c.setCursoID(resultSet.getInt("cursoID"));
-                c.setVisivel(resultSet.getBoolean("visivel"));
+                c.setVisivelCurso(resultSet.getBoolean("visivelCurso"));
                 c.setCurso(resultSet.getString("curso"));
                 listaCurso.add(c);
             }
@@ -95,11 +88,11 @@ public class CursoDao {
     }
     
     public void alterar(Curso curso) throws SQLException {
-        String sql = "UPDATE Curso SET visivel = ?, curso = ? WHERE cursoID = ?";
+        String sql = "UPDATE Curso SET visivelCurso = ?, curso = ? WHERE cursoID = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(sql);
-            preparando.setBoolean(1, curso.getVisivel());
+            preparando.setBoolean(1, curso.getVisivelCurso());
             preparando.setString(2, curso.getCurso());
             preparando.setInt(3, curso.getCursoID());
             preparando.executeUpdate();
@@ -123,7 +116,7 @@ public class CursoDao {
                 curso = new Curso();
                 curso.setCursoID(resultSet.getInt("cursoID"));
                 curso.setCurso(resultSet.getString("curso"));
-                curso.setVisivel(resultSet.getBoolean("visivel"));
+                curso.setVisivelCurso(resultSet.getBoolean("visivelCurso"));
             }
         } catch (SQLException e) {
             System.err.println("Erro ao pesquisar curso por id\n" + e.getMessage());

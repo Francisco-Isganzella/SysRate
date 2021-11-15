@@ -15,7 +15,7 @@ public class Turma extends Curso{
     private Integer professorID;
     private Integer cursoID;
     private String turma;
-    private Boolean visivel;
+    private Boolean visivelTurma;
     
     
 
@@ -90,17 +90,17 @@ public class Turma extends Curso{
     }
 
     /**
-     * @return the visivel
+     * @return the visivelTurma
      */
-    public Boolean getVisivel() {
-        return visivel;
+    public Boolean getVisivelTurma() {
+        return visivelTurma;
     }
 
     /**
-     * @param visivel the visivel to set
+     * @param visivelTurma the visivelTurma to set
      */
-    public void setVisivel(Boolean visivel) {
-        this.visivel = visivel;
+    public void setVisivelTurma(Boolean visivelTurma) {
+        this.visivelTurma = visivelTurma;
     }
 
     

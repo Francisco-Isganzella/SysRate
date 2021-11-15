@@ -12,7 +12,7 @@ package br.com.sysrate.entidade;
 public class Professor {
     private Integer professorID;
     private String nomeProfessor;
-    private Boolean visivel;
+    private Boolean visivelProfessor;
 
     /**
      * @return the professorID
@@ -43,16 +43,16 @@ public class Professor {
     }
 
     /**
-     * @return the visivel
+     * @return the visivelProfessor
      */
-    public Boolean getVisivel() {
-        return visivel;
+    public Boolean getVisivelProfessor() {
+        return visivelProfessor;
     }
 
     /**
-     * @param visivel the visivel to set
+     * @param visivelProfessor the visivelProfessor to set
      */
-    public void setVisivel(Boolean visivel) {
-        this.visivel = visivel;
+    public void setVisivelProfessor(Boolean visivelProfessor) {
+        this.visivelProfessor = visivelProfessor;
     }
 }
