@@ -276,7 +276,7 @@ public class PerfilResumo {
                     nDao.salvar(n);
                     JOptionPane.showMessageDialog(null, "Avaliação realizada com sucesso!!!","Avaliação",1);
                                 System.out.println("Avaliação realizada com sucesso!!!");
-                    
+                    janela.setVisible(false);
                     new InicioPaineis();
                 }
                     

@@ -200,7 +200,7 @@ public class InicioPaineis {
                 Font fonteNomeProf = new Font("", Font.BOLD, 18);
                 Font fonteNomeCurso = new Font("",Font.PLAIN, 12);
                 Font fonteDisciplinas = new Font("", Font.PLAIN,12);
-                Font fonteNotas = new Font("",Font.PLAIN,12);
+                Font fonteNotas = new Font("",Font.BOLD,12);
                 
                 JLabel nomeProf = new JLabel("NOME PROFESSOR");
                 nomeProf.setBounds(140, 20, 700, 20);
