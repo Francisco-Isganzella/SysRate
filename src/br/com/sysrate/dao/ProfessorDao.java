@@ -11,6 +11,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -83,5 +85,46 @@ public class ProfessorDao {
             FabricaConexao.fecharConexao(conexao, preparando);
         }
     }
+    public List<Professor> listarProfessor() throws SQLException{
+        List<Professor> listaProfessor = new ArrayList<Professor>();
+        String consulta = "SELECT * FROM professor";
+        
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            resultSet = preparando.executeQuery();
+            while (resultSet.next()) {                
+                Professor p = new Professor();
+                p.setProfessorID(resultSet.getInt("professorID"));
+                listaProfessor.add(p);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao listar os turmas" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return listaProfessor;
+    }
+    
+    public String buscarNomeProfessor(Integer professorID) throws SQLException{
+        Professor professor = null;
+        String nomeProfessor = "";
+        String consulta = "SELECT nomeProfessor FROM professor WHERE professorID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setInt(1, professorID);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                nomeProfessor = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar prof " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return nomeProfessor;
+    }
+    
     
 }

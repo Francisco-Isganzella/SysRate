@@ -1,5 +1,10 @@
 package br.com.sysrate.tela;
 
+import br.com.sysrate.entidade.Usuario;
+import br.com.sysrate.dao.ProfessorDao;
+import br.com.sysrate.dao.TurmaDao;
+import br.com.sysrate.entidade.Professor;
+import br.com.sysrate.entidade.Turma;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,6 +16,8 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -25,13 +32,14 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+
 /**
  *
  * @author Thiago
  */
 public class InicioPaineis {
     
-    //public JFrame janela;
+    public Integer i = 1;
     
     public InicioPaineis() {
         EventQueue.invokeLater(new Runnable() {
@@ -43,26 +51,24 @@ public class InicioPaineis {
                     ex.printStackTrace();
                 }
                 
-                //janela = new SysRate().janela();
                 JFrame frame = new JFrame("SysRate");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.add(new PainelPrincipal());
                 frame.pack();
                 frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-               
+                frame.setVisible(true);                 
             }
         });
     }
         
         public class PainelPrincipal extends JPanel {
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(1000, 650);
+        }            
 
         public PainelPrincipal() {
-            JButton btnAdd = new JButton("+");
             setLayout(new BorderLayout());
-            JPanel buttons = new JPanel(new FlowLayout());
-            buttons.add(btnAdd, FlowLayout.LEFT);
-            add(buttons, BorderLayout.WEST);
             
             JPanel cabecalho = new JPanel();
                 cabecalho.setLayout(null);
@@ -89,61 +95,61 @@ public class InicioPaineis {
                 cabecalho.add(botaoLoginLogout);
                 cabecalho.add(botaoHome);            
 
-                add(cabecalho, BorderLayout.NORTH);        
-
-            JPanel painelProf = new JPanel(new GridBagLayout());
-            painelProf.setBackground(Color.ORANGE);
-            GridBagConstraints gbc = new GridBagConstraints();
-            gbc.gridwidth = GridBagConstraints.REMAINDER;
-            gbc.weighty = 0;
-            //painelProf.add(new JPanel(), gbc);
-
-            add(new JScrollPane(painelProf));
-
-            btnAdd.addActionListener(new ActionListener() { //no caso iria ser o botão de adição de Prof no cadastro
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    CriacaoPainel pane = new CriacaoPainel();
-                    int insertAt = Math.max(0, painelProf.getComponentCount() - 1);
-                    GridBagConstraints gbc = new GridBagConstraints();
-                    gbc.gridwidth = GridBagConstraints.REMAINDER;
-                    //gbc.fill = GridBagConstraints.HORIZONTAL;
-                    //gbc.weightx = 0;
-                    //gbc.weighty = 0;    
-                    painelProf.add(pane, gbc, insertAt);
-                    painelProf.revalidate();
-                    painelProf.repaint();
+                add(cabecalho, BorderLayout.NORTH);   
+                
+                JPanel painelProf = new JPanel(new GridBagLayout());
+                painelProf.setBackground(Color.ORANGE);
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridwidth = GridBagConstraints.REMAINDER;
+                gbc.weighty = 0;
+                add(new JScrollPane(painelProf));
+                
+                
+                List<Professor> ListaProf = new ArrayList();
+                ProfessorDao pdao = new ProfessorDao();
+                try {
+                    ListaProf = pdao.listarProfessor();
+                    while (ListaProf.size() > painelProf.getComponentCount()) {        
+                        CriacaoPainel pane = new CriacaoPainel();
+                        int insertAt = Math.max(0, painelProf.getComponentCount() - 1);                    
+                        gbc.gridwidth = GridBagConstraints.REMAINDER;                    
+                        painelProf.add(pane, gbc, insertAt);
+                        painelProf.revalidate();
+                        painelProf.repaint();
                 }
-            });
-
+                } catch (SQLException ex) {
+                    Logger.getLogger(InicioPaineis.class.getName()).log(Level.SEVERE, null, ex);
+                } 
         }
-
-        @Override
-        public Dimension getPreferredSize() {
-            return new Dimension(1000, 650);
-        } 
-    }
-        public static class CriacaoPainel extends JPanel {
-
-            public CriacaoPainel() {
+    }       
+                
+        public class CriacaoPainel extends JPanel {
+            
+            ProfessorDao pdao = new ProfessorDao();
+            Professor p = new Professor();            
+            
+            public CriacaoPainel() throws SQLException {
+                                
                 setPreferredSize(new Dimension(900, 120));
                 setLayout(null);
                 
                 ImageIcon imagemProf = new ImageIcon(getClass().getResource("icons_prof.png"));
                 JLabel imagemP = new JLabel(imagemProf);
-                imagemP.setBounds(20, 20, 100, 100);
+                imagemP.setBounds(20, 3, 100, 100);
                 imagemP.setBackground(Color.BLACK);
                 add(imagemP);
                 
                 Font fonteNomeProf = new Font("", Font.BOLD, 18);
                 Font fonteNomeCurso = new Font("",Font.PLAIN, 12);
                 Font fonteDisciplinas = new Font("", Font.PLAIN,12);
+                Font fonteNotas = new Font("",Font.PLAIN,12);
                 
                 JLabel nomeProf = new JLabel("NOME PROFESSOR");
                 nomeProf.setBounds(140, 20, 700, 20);
                 nomeProf.setFont(fonteNomeProf);
                 add(nomeProf);
-                //nomeProf.setText("substituir com nome dos professores do banco, fazer isto na ação do botão");
+                nomeProf.setText(pdao.buscarNomeProfessor(i));
+                i = i + 1;
                 
                 JLabel cursoProf = new JLabel("CURSO");
                 cursoProf.setBounds(140, 50, 400, 20);
@@ -160,59 +166,67 @@ public class InicioPaineis {
                 NomeDisciplinas.setBounds(220, 80, 300, 20);
                 NomeDisciplinas.setFont(fonteDisciplinas);
                 add(NomeDisciplinas);
-                
-                JPanel avaliacao = new JPanel();
-                avaliacao.setBounds(720, 20, 100, 20);
-                avaliacao.setBackground(Color.BLACK);
-                add(avaliacao);
-                
-                /*JPanel avaliacao = new JPanel();
-                avaliacao.setBounds(720, 60, 100, 20);
-                avaliacao.setBackground(Color.black);
-                add(avaliacao);*/
-                
+                                                
                 JButton avaliar = new JButton("Avaliar");
-                avaliar.setBounds(720, 80, 100, 20);
+                avaliar.setBounds(32, 97, 80, 18);
                 avaliar.setBackground(Color.ORANGE);
                 add(avaliar);
                 
-                JFrame janelaAvaliacao = new JFrame();
+                //PAINEL CONTENDO AS NOTAS
+                JPanel PainelNotas = new JPanel();
+                PainelNotas.setLayout(null);
+                PainelNotas.setBounds(590, 10, 300, 100);
+                PainelNotas.setBackground(Color.DARK_GRAY);
+                
+                JLabel didatica = new JLabel("Didática");
+                didatica.setBounds(0,0,200,20);
+                didatica.setFont(fonteNotas);
+                PainelNotas.add(didatica);
+                
+                JLabel qualidadeMaterial = new JLabel("Qualidade do Material");
+                qualidadeMaterial.setBounds(0,20,200,20);
+                qualidadeMaterial.setFont(fonteNotas);
+                PainelNotas.add(qualidadeMaterial);
+                
+                JLabel qualidadeCorrecao = new JLabel("Qualidade da Correção");
+                qualidadeCorrecao.setBounds(0,40,200,20);
+                qualidadeCorrecao.setFont(fonteNotas);
+                PainelNotas.add(qualidadeCorrecao);
+                
+                JLabel receptividade = new JLabel("Receptividade");
+                receptividade.setBounds(0,60,200,20);
+                receptividade.setFont(fonteNotas);
+                PainelNotas.add(receptividade);
+                
+                JLabel respeito = new JLabel("Respeito");
+                respeito.setBounds(0,80,200,20);
+                respeito.setFont(fonteNotas);
+                PainelNotas.add(respeito);
+                
+                add(PainelNotas);
+                
+                //FIM DO PAINEL CONTENDO AS NOTAS
+                
+                Usuario usuarioU = new Usuario();
                 
                 avaliar.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         
-                        
-                            new LoginCadastro();
-                            
-                            //add(janelaAvaliacao);
-                            //return janelaAvaliacao;
-                        
+                        /*if (usuarioU.getAtivoOnline().equals(true)) {
+                            new PerfilResumo();                            
                         }
-                                            
+                        else{
+                            new LoginCadastro();
+                        }*/
+                        new PerfilResumo();
+                        }                
                     
                 });
-//                setLayout(new GridBagLayout());                                          
-//                GridBagConstraints gbc = new GridBagConstraints();
-//                gbc.ipady = 0;       //reset to default
-//                gbc.weighty = 1.0;   //request any extra vertical space
-//                gbc.anchor = GridBagConstraints.LINE_START; //bottom of space
-//                gbc.insets = new Insets(0, 5, 0, 0);  //top padding
-//                gbc.gridx = 0;       
-//                gbc.gridwidth = 0;   
-//                gbc.gridy = 1;       
-//                ImageIcon imagemProf = new ImageIcon(getClass().getResource("Unknown_person.png"));
-//                JLabel image = new JLabel(imagemProf);
-//                add(image, gbc);
-//                JLabel nomeProf = new JLabel("Juvenildo Silva");
-//                add(image, gbc);
-
-// não deu certo ainda!!!!!!!!!!! !IJ JR!()!J ()F)ISAJF)IAJ
                 
                 setBorder(new CompoundBorder(new LineBorder(Color.BLACK), new EmptyBorder(10, 10, 10, 10)));
 
             }
         }
-        
-        
+          
  }
