@@ -32,6 +32,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -56,11 +57,11 @@ public class InicioPaineis {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                /*try {
+                try {
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                 } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
                 ex.printStackTrace();
-                }*/
+                }
                 
                 frame = new JFrame("SysRate");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -336,7 +337,7 @@ public class InicioPaineis {
                 
                 //FIM DO PAINEL CONTENDO AS NOTAS
                 
-                Usuario usuarioU = new Usuario();
+//                Usuario usuario = new Usuario();
                 
                 avaliar.addActionListener(new ActionListener() {
                     @Override
@@ -346,18 +347,21 @@ public class InicioPaineis {
                         try {
                             System.out.println(String.valueOf(pdao.buscarNomeProfessorRetornaID(nomeProf.getText())));
                             setProfID(pdao.buscarNomeProfessorRetornaID(nomeProf.getText()));
+                            if (Validacao.getValidaPermissao() == true){
+                                JOptionPane.showMessageDialog(null, "Administradores não podem fazer avaliações","Atenção",1);
+                                }
+                            else if (Validacao.getValidaOnline() == true) {
+                                new PerfilResumo();                        
+                            }
+                            else if (Validacao.getValidaOnline() == false){
+                                new LoginCadastro();                         
+                            } 
+                            
                         } catch (SQLException ex) {
                             Logger.getLogger(InicioPaineis.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        //nomeProf.getText();
-                        /*if (usuarioU.getAtivoOnline().equals(true)) {
-                            new PerfilResumo();                            
-                        }
-                        else{
-                            new LoginCadastro();
-                        }*/
+                        }                        
                         frame.setVisible(false);
-                        new PerfilResumo();
+//                        new PerfilResumo();
                         }
                     
                     

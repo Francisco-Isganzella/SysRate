@@ -245,6 +245,8 @@ public class LoginCadastro {
                                 Validacao.setValidaNome(usu.getNomeUsuario());
                                 // MATRICULA
                                 Validacao.setValidaMatr(usu.getMatricula());
+                                // PERMISSAO
+                                Validacao.setValidaPermissao(true);
 
                                 usuDao.alterar(usu);
                                 new Cadastro();
@@ -285,7 +287,7 @@ public class LoginCadastro {
                         }
                         
                         }else{
-                            System.err.println("ERRO LOGIN: Matricula existente porém sem senha\n\nPara poder efetuar o Login o usuário de efetuar seu cadastro antes.");
+                            System.err.println("ERRO LOGIN: Matricula existente porém sem senha\n\nPara poder efetuar o Login o usuário deve efetuar seu cadastro antes.");
                             JOptionPane.showMessageDialog(null, "       Para poder efetuar Login você deve realizar seu cadastro antes!\n\n"+"Preencha os dados na parte Primeiro Acesso e clique no botão Cadastrar-se!","Atenção",2);
                             
                         }

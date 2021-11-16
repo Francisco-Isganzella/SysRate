@@ -79,8 +79,8 @@ public class SysRate {
             public void actionPerformed(ActionEvent ae) {
                 
                 try {
-                    new InicioPaineis();
                     janela.setVisible(false);
+                    new InicioPaineis();
                     
                 } catch (SQLException ex) {
                     System.err.println("erro botaoHome:"+ex.getMessage());
