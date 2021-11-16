@@ -1,11 +1,13 @@
 package br.com.sysrate.tela;
 
 import br.com.sysrate.dao.CursoDao;
+import br.com.sysrate.dao.DisciplinaDao;
 import br.com.sysrate.dao.NotasDao;
 import br.com.sysrate.entidade.Usuario;
 import br.com.sysrate.dao.ProfessorDao;
 import br.com.sysrate.dao.TurmaDao;
 import br.com.sysrate.entidade.Curso;
+import br.com.sysrate.entidade.Disciplina;
 import br.com.sysrate.entidade.Notas;
 import br.com.sysrate.entidade.Professor;
 import br.com.sysrate.entidade.Turma;
@@ -21,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,11 +33,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -135,6 +140,8 @@ public class InicioPaineis {
             Curso c = new Curso();
             NotasDao ndao = new NotasDao();
             Notas n = new Notas();
+            DisciplinaDao ddao = new DisciplinaDao();
+            Disciplina d = new Disciplina();
             
             public CriacaoPainel() throws SQLException {
                                 
@@ -174,6 +181,31 @@ public class InicioPaineis {
                 NomeDisciplinas.setBounds(220, 80, 300, 20);
                 NomeDisciplinas.setFont(fonteDisciplinas);
                 add(NomeDisciplinas);
+                
+                List<Disciplina> ListaDisc = Arrays.asList();
+                ListaDisc = ddao.buscarDisciplinaProf(i);
+                
+                DefaultTableModel tabelaDisciplinas = new DefaultTableModel();
+                JTable tabela = new JTable(tabelaDisciplinas);
+                tabelaDisciplinas.addColumn("Disciplina");
+                tabelaDisciplinas.getDataVector().clear();// limpa a tabela
+
+                
+                if (!ListaDisc.isEmpty()) { //verifica se a lista não esta vaxia
+                    for (Disciplina d : ListaDisc) { //percorre minha lista
+                        tabelaDisciplinas.addRow(new Object[]{d.getDisciplina()});
+                    }
+                }
+                
+                ArrayList list = new ArrayList();
+                for(int i = 0;i<tabela.getModel().getRowCount();i++)
+                {
+                    list.add(tabela.getModel().getValueAt(i,0)); //get the all row values at column index 0
+                }
+                
+//                System.out.println(list.toString());
+                
+                NomeDisciplinas.setText(String.join(", ", list));//o método de buscraDisciplina é feito por professorID
                                                 
                 JButton avaliar = new JButton("Avaliar");
                 avaliar.setBounds(32, 97, 80, 18);
@@ -226,13 +258,17 @@ public class InicioPaineis {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         
-                        /*if (usuarioU.getAtivoOnline().equals(true)) {
-                            new PerfilResumo();                            
-                        }
-                        else{
+                        try {
+                            /*if (usuarioU.getAtivoOnline().equals(true)) {
+                            new PerfilResumo();
+                            }
+                            else{
                             new LoginCadastro();
-                        }*/
-                        new LoginCadastro();
+                            }*/
+                            new LoginCadastro();
+                        } catch (SQLException ex) {
+                            Logger.getLogger(InicioPaineis.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         }                
                     
                 });

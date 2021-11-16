@@ -48,4 +48,27 @@ public class NotasDao {
         return notas;
     }
     
+    public Notas buscarMediaDidatica (int professorID) throws SQLException{
+        Notas notas = null;
+        String consulta = "SELECT * FROM Notas n WHERE n.professorID = ?";
+        
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setInt(1, professorID);
+            resultSet = preparando.executeQuery();
+            
+            if (resultSet.next()) {
+                notas = new Notas();
+                notas.setDidatica(resultSet.getInt("didatica"));
+            }
+                        
+        } catch (SQLException e) {
+            System.err.println("Erro ao pesquisar professor por nome:"+e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return notas;
+    }
+    
 }

@@ -217,7 +217,7 @@ public class PerfilResumo {
         try {
             c = cDao.pesquisarPorId(2);
             p = pDao.pesquisarPorId(1);
-            d = dDao.pesquisarPorId(1);
+//            d = dDao.pesquisarPorId(1);
             
         } catch (SQLException ex) {
             System.err.println("Erro pesquisar por ID: "+ex.getMessage());
@@ -237,7 +237,7 @@ public class PerfilResumo {
                 Notas n = new Notas();
                 NotasDao nDao = new NotasDao();
                 n.setProfessorID(1);
-                try {
+//                try {
                     
                 if (!(radioDidatica1.isSelected() || radioDidatica2.isSelected() || radioDidatica3.isSelected() || radioDidatica4.isSelected() || radioDidatica5.isSelected())){
                     JOptionPane.showMessageDialog(null, "Você deve atribuir ao menos uma nota a cada tópico!","Erro Avaliação",0);
@@ -273,16 +273,16 @@ public class PerfilResumo {
                     n.setRespeito(respeito);
                 
                 
-                    nDao.salvar(n);
+//                    nDao.salvar(n);
                     JOptionPane.showMessageDialog(null, "Avaliação realizada com sucesso!!!","Avaliação",1);
                                 System.out.println("Avaliação realizada com sucesso!!!");
                     janela.setVisible(false);
                     new InicioPaineis();
                 }
                     
-                } catch (SQLException x) {
-                    System.err.println("Erro ao salvar notas: "+ x.getMessage());
-                }
+//                } catch (SQLException x) {
+//                    System.err.println("Erro ao salvar notas: "+ x.getMessage());
+//                }
                 
             }
         });
