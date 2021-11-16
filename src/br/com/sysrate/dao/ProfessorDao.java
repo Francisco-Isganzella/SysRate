@@ -42,7 +42,7 @@ public class ProfessorDao {
     public Professor pesquisarPorNome(String nome) throws SQLException{
         Professor professor = null;
         String consulta = "SELECT * FROM Professor p "
-                + "WHERE p.nomeProfessor = ?";
+                        + "WHERE nomeProfessor = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
@@ -79,9 +79,10 @@ public class ProfessorDao {
             FabricaConexao.fecharConexao(conexao, preparando);
         }
     }
+    
     public List<Professor> listarProfessor() throws SQLException{
         List<Professor> listaProfessor = new ArrayList<Professor>();
-        String consulta = "SELECT * FROM professor";
+        String consulta = "SELECT * FROM professor GROUP BY nomeProfessor";
         
         try {
             conexao = FabricaConexao.abrirConexao();
@@ -103,7 +104,9 @@ public class ProfessorDao {
     public String buscarNomeProfessor(Integer professorID) throws SQLException{
         Professor professor = null;
         String nomeProfessor = "";
-        String consulta = "SELECT nomeProfessor FROM professor WHERE professorID = ?";
+        String consulta = "SELECT nomeProfessor FROM professor "
+                        + " WHERE professorID = ?" +
+                          " GROUP BY nomeProfessor";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
@@ -120,10 +123,9 @@ public class ProfessorDao {
         return nomeProfessor;
     }
     
-    
     public Professor pesquisarPorId(Integer id) throws SQLException {
         Professor professor = null;
-        String consulta = "SELECT * FROM Professor p WHERE p.professorID = ?";
+        String consulta = "SELECT * FROM Professor p WHERE professorID = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);

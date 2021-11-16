@@ -43,7 +43,7 @@ public class CursoDao {
     public Curso pesquisarPorNome(String nome) throws SQLException{
         Curso curso = null;
         String consulta = "SELECT * FROM curso c "
-                + "WHERE c.curso = ?";
+                        + "WHERE curso = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
@@ -66,7 +66,7 @@ public class CursoDao {
     
     public List<Curso> listarCurso() throws SQLException{
         List<Curso> listaCurso = new ArrayList<Curso>();
-        String consulta = "SELECT * FROM Curso c ORDER BY c.curso";
+        String consulta = "SELECT * FROM Curso c ORDER BY curso";
         
         try {
             conexao = FabricaConexao.abrirConexao();
@@ -106,7 +106,7 @@ public class CursoDao {
     
     public Curso pesquisarPorId(Integer id) throws SQLException {
         Curso curso = null;
-        String consulta = "SELECT * FROM Curso c WHERE c.cursoID = ?";
+        String consulta = "SELECT * FROM Curso c WHERE cursoID = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
@@ -124,5 +124,29 @@ public class CursoDao {
             FabricaConexao.fecharConexao(conexao, preparando);
         }
         return curso;
+    }
+    
+    public String buscarNomeCurso(String nomeProfessor) throws SQLException{
+        Curso curso = null;
+        String nomeCurso = "";
+        String consulta = "SELECT curso" +
+                          " FROM (Turma t INNER JOIN Curso c ON t.cursoID = c.cursoID)" +
+                          " INNER JOIN Professor p ON t.professorID = p.professorID" +
+                          " WHERE p.nomeProfessor = ?" +
+                          " GROUP BY curso";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setString(1, nomeProfessor);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                nomeCurso = resultSet.getString(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscar curso " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return nomeCurso;
     }
 }

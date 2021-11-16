@@ -29,13 +29,9 @@ public class SysRate {
     public JButton botaoHome = new JButton();
     
     public SysRate(){
-        
-        
+   
         janela();
-        //janela.setVisible(true);
-                                
-        
-        
+        //janela.setVisible(true);    
     }
     
     public JFrame janela(){

@@ -114,25 +114,5 @@ public class TurmaDao {
             FabricaConexao.fecharConexao(conexao, preparando);
         }
     }
-    
-//BUSCAR NOME /CURSO
-//public String buscarNomeProfessor(Integer professorID) throws SQLException{
-//        String nomeProfessor = "";
-//        String consulta = "SELECT p.nomeProfessor FROM turma t INNER JOIN professor p on p.professorID = t.professorID WHERE p.professorID = ?";
-//        try {
-//            conexao = FabricaConexao.abrirConexao();
-//            preparando = conexao.prepareStatement(consulta);
-//            preparando.setInt(1, professorID);
-//            resultSet = preparando.executeQuery();
-//            while (resultSet.next()) {
-//                Turma t = new Turma();
-//                t.setNomeProfessor(resultSet.getString("p.nomeProfessor"));
-//            }
-//        } catch (SQLException e) {
-//            System.err.println("Erro ao listar as turmas " + e.getMessage());
-//        } finally {
-//            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
-//        }
-//        return null;
-//    }    
+      
 }
