@@ -48,7 +48,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Thiago
  */
 public class InicioPaineis {
-    private int profID = 0;
+    private static int profID = 0;
     public Integer i = 1;
     private JFrame frame;
     
@@ -225,8 +225,9 @@ public class InicioPaineis {
                 nomeProf.setBounds(140, 20, 700, 20);
                 nomeProf.setFont(fonteNomeProf);
                 add(nomeProf);
-                nomeProf.setText(pdao.buscarNomeProfessor(i));  
-                setProfID(i);
+                nomeProf.setText(pdao.buscarNomeProfessor(i));
+                
+                //setProfID(i);
                 
                 //NOME CURSO
                 JLabel cursoProf = new JLabel("CURSO");
@@ -341,13 +342,20 @@ public class InicioPaineis {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         
+                        System.out.println(nomeProf.getText());
+                        try {
+                            System.out.println(String.valueOf(pdao.buscarNomeProfessorRetornaID(nomeProf.getText())));
+                            setProfID(pdao.buscarNomeProfessorRetornaID(nomeProf.getText()));
+                        } catch (SQLException ex) {
+                            Logger.getLogger(InicioPaineis.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        //nomeProf.getText();
                         /*if (usuarioU.getAtivoOnline().equals(true)) {
                             new PerfilResumo();                            
                         }
                         else{
                             new LoginCadastro();
                         }*/
-                        System.out.println(i);
                         frame.setVisible(false);
                         new PerfilResumo();
                         }
@@ -364,15 +372,20 @@ public class InicioPaineis {
     /**
      * @return the profID
      */
-    public int getProfID() {
+    public static int getProfID() {
         return profID;
     }
 
     /**
-     * @param profID the profID to set
+     * @param aProfID the profID to set
      */
-    public void setProfID(int profID) {
-        this.profID = profID;
+    public static void setProfID(int aProfID) {
+        profID = aProfID;
     }
+
+    /**
+     * @return the profID
+     */
+    
           
  }

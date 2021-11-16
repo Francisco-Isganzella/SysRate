@@ -236,7 +236,7 @@ public class PerfilResumo {
                 
                 Notas n = new Notas();
                 NotasDao nDao = new NotasDao();
-                n.setProfessorID(1);
+                n.setProfessorID(InicioPaineis.getProfID());
                 try {
                     
                 if (!(radioDidatica1.isSelected() || radioDidatica2.isSelected() || radioDidatica3.isSelected() || radioDidatica4.isSelected() || radioDidatica5.isSelected())){

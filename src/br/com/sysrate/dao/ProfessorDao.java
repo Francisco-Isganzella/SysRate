@@ -145,4 +145,25 @@ public class ProfessorDao {
         return professor;
     }
     
+    public int buscarNomeProfessorRetornaID(String nomeProfessor) throws SQLException{
+        Professor professor = null;
+        int professorID = 0;
+        String consulta = "SELECT professorID FROM professor "
+                        + " WHERE nomeProfessor = ?" ;
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setString(1, nomeProfessor);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                professorID = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao buscarNomeProfRetornaID " + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
+        }
+        return professorID;
+    }
+    
 }
