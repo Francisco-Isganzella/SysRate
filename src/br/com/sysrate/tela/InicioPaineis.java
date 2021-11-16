@@ -216,7 +216,7 @@ public class InicioPaineis {
                 JPanel PainelNotas = new JPanel();
                 PainelNotas.setLayout(null);
                 PainelNotas.setBounds(590, 10, 300, 100);
-                PainelNotas.setBackground(Color.DARK_GRAY);
+                PainelNotas.setBackground(Color.LIGHT_GRAY);
                 
                 JLabel didatica = new JLabel("Didática");
                 didatica.setBounds(0,0,200,20);
@@ -225,28 +225,48 @@ public class InicioPaineis {
                 JLabel didaticaNota = new JLabel();
                 didaticaNota.setBounds(200, 0, 50, 20);
                 PainelNotas.add(didaticaNota);
-                didaticaNota.setText(String.valueOf(n.getDidatica()));
+                didaticaNota.setText((ndao.buscarMediaDidatica(i)));
                 
                 JLabel qualidadeMaterial = new JLabel("Qualidade do Material");
                 qualidadeMaterial.setBounds(0,20,200,20);
                 qualidadeMaterial.setFont(fonteNotas);
                 PainelNotas.add(qualidadeMaterial);
+                JLabel qualidadeMaterialNota = new JLabel();
+                qualidadeMaterialNota.setBounds(200, 20, 50, 20);
+                PainelNotas.add(qualidadeMaterialNota);
+                qualidadeMaterialNota.setText((ndao.buscarMediaQualidadeMaterial(i)));
+
                 
                 JLabel qualidadeCorrecao = new JLabel("Qualidade da Correção");
                 qualidadeCorrecao.setBounds(0,40,200,20);
                 qualidadeCorrecao.setFont(fonteNotas);
                 PainelNotas.add(qualidadeCorrecao);
+                JLabel qualidadeCorrecaoNota = new JLabel();
+                qualidadeCorrecaoNota.setBounds(200, 40, 50, 20);
+                PainelNotas.add(qualidadeCorrecaoNota);
+                qualidadeCorrecaoNota.setText((ndao.buscarMediaQualidadeCorrecao(i)));
+
                 
                 JLabel receptividade = new JLabel("Receptividade");
                 receptividade.setBounds(0,60,200,20);
                 receptividade.setFont(fonteNotas);
                 PainelNotas.add(receptividade);
+                JLabel receptividadeNota = new JLabel();
+                receptividadeNota.setBounds(200, 60, 50, 20);
+                PainelNotas.add(receptividadeNota);
+                receptividadeNota.setText((ndao.buscarMediaReceptividade(i)));
+
                 
                 JLabel respeito = new JLabel("Respeito");
                 respeito.setBounds(0,80,200,20);
                 respeito.setFont(fonteNotas);
                 PainelNotas.add(respeito);
+                JLabel respeitoNota = new JLabel();
+                respeitoNota.setBounds(200, 80, 50, 20);
+                PainelNotas.add(respeitoNota);
+                respeitoNota.setText((ndao.buscarMediaRespeito(i)));
                 
+//                    
                 i = i + 1;
                 add(PainelNotas);
                 

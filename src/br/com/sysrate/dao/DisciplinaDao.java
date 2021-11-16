@@ -116,7 +116,7 @@ public class DisciplinaDao {
             preparando.setInt(1, professorID);
             resultSet = preparando.executeQuery();
             if (resultSet.next()) {
-                nomeDisciplina= resultSet.getString(1);
+                nomeDisciplina = resultSet.getString(1);
                 
             }
         } catch (SQLException e) {

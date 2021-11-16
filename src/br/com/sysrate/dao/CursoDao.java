@@ -133,7 +133,8 @@ public class CursoDao {
         String consulta = "SELECT c.curso" +
                           " FROM (Turma t INNER JOIN Curso c ON t.cursoID = c.cursoID)" +
                           " INNER JOIN Professor p ON t.professorID = p.professorID" +
-                          " WHERE p.nomeProfessor = ?";
+                          " WHERE p.nomeProfessor = ?" +
+                          " GROUP BY c.curso";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
