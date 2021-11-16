@@ -149,4 +149,27 @@ public class CursoDao {
         }
         return nomeCurso;
     }
+    
+    public Curso pesquisarCursoPorProfessorID(Integer professorID) throws SQLException {
+        Curso curso = null;
+        String consulta = "SELECT c.cursoID, c.curso, c.visivelCurso FROM Curso c INNER JOIN Turma t on t.cursoID = c.cursoID WHERE t.professorID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setInt(1, professorID);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                curso = new Curso();
+                curso.setCursoID(resultSet.getInt("cursoID"));
+                curso.setCurso(resultSet.getString("curso"));
+                curso.setVisivelCurso(resultSet.getBoolean("visivelCurso"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao pesquisar curso por id\n" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+        return curso;
+    }
+    
 }

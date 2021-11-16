@@ -168,4 +168,27 @@ public class DisciplinaDao {
         }
         return listaDisciplinaProf;
     }
+    
+    public Disciplina pesquisarDisciplinaPorProfessorID(Integer professorID) throws SQLException {
+        Disciplina disciplina = null;
+        String consulta = "SELECT * FROM Disciplina d INNER JOIN Turma t on d.disciplinaID = t.disciplinaID WHERE t.professorID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setInt(1, professorID);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                disciplina = new Disciplina();
+                disciplina.setDisciplinaID(resultSet.getInt("disciplinaID"));
+                disciplina.setDisciplina(resultSet.getString("disciplina"));
+                disciplina.setVisivelDisciplina(resultSet.getBoolean("visivelDisciplina"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao pesquisar disciplina por id\n" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+        return disciplina;
+    }
+
 }

@@ -215,9 +215,9 @@ public class PerfilResumo {
         
         
         try {
-            c = cDao.pesquisarPorId(2);
-            p = pDao.pesquisarPorId(1);
-            d = dDao.pesquisarPorId(1);
+            c = cDao.pesquisarCursoPorProfessorID(InicioPaineis.getProfID()); // trocar por: InicioPaineis.getProfID() que retorna o professorID do painel selecionado
+            p = pDao.pesquisarPorId(InicioPaineis.getProfID()); // trocar por: InicioPaineis.getProfID()
+            d = dDao.pesquisarDisciplinaPorProfessorID(InicioPaineis.getProfID()); // trocar por: InicioPaineis.getProfID()
             
         } catch (SQLException ex) {
             System.err.println("Erro pesquisar por ID: "+ex.getMessage());
