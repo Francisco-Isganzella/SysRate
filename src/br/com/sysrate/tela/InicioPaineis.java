@@ -57,11 +57,11 @@ public class InicioPaineis {
         EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-                ex.printStackTrace();
-                }
+//                try {
+//                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+//                ex.printStackTrace();
+//                }
                 
                 frame = new JFrame("SysRate");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,7 +118,6 @@ public class InicioPaineis {
 
                                 u.setUsuarioID(Validacao.getValidaID());
                                 uDao.alterarLogin(u);
-
                                 new InicioPaineis();
                                 InicioPaineis.this.frame.dispose();
 
@@ -347,16 +346,18 @@ public class InicioPaineis {
                         try {
                             System.out.println(String.valueOf(pdao.buscarNomeProfessorRetornaID(nomeProf.getText())));
                             setProfID(pdao.buscarNomeProfessorRetornaID(nomeProf.getText()));
-                            if (Validacao.getValidaPermissao() == true){
-                                JOptionPane.showMessageDialog(null, "Administradores não podem fazer avaliações","Atenção",1);
+                            Usuario usu = new Usuario();
+                            UsuarioDao usuDao = new UsuarioDao();                        
+                            usu = usuDao.pesquisarPorMatricula(Validacao.getValidaMatr());                          
+                            if (usu.getPermissao() == true){
+                                JOptionPane.showMessageDialog(null, "Administradores não podem fazer avaliações","Atenção",0);
                                 }
                             else if (Validacao.getValidaOnline() == true) {
                                 new PerfilResumo();                        
                             }
                             else if (Validacao.getValidaOnline() == false){
                                 new LoginCadastro();                         
-                            } 
-                            
+                            }                            
                         } catch (SQLException ex) {
                             Logger.getLogger(InicioPaineis.class.getName()).log(Level.SEVERE, null, ex);
                         }                        

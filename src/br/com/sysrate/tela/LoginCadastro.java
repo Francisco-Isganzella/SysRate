@@ -244,9 +244,7 @@ public class LoginCadastro {
                                 // NOME USUARIO
                                 Validacao.setValidaNome(usu.getNomeUsuario());
                                 // MATRICULA
-                                Validacao.setValidaMatr(usu.getMatricula());
-                                // PERMISSAO
-                                Validacao.setValidaPermissao(true);
+                                Validacao.setValidaMatr(usu.getMatricula());                               
 
                                 usuDao.alterar(usu);
                                 new Cadastro();
