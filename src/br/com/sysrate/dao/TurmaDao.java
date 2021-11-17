@@ -85,8 +85,12 @@ public class TurmaDao {
                 t.setDisciplina(resultSet.getString("d.disciplina"));
                 t.setCurso(resultSet.getString("c.curso"));
                 t.setVisivelTurma(resultSet.getBoolean("visivelTurma"));
+                t.setVisivelCurso(resultSet.getBoolean("c.visivelCurso"));
+                t.setVisivelDisciplina(resultSet.getBoolean("d.visivelDisciplina"));
+                if (t.getVisivelCurso()== true && t.getVisivelDisciplina() == true) {
+                    listaTurma.add(t);
+                }
                 
-                listaTurma.add(t);
             }
         } catch (SQLException e) {
             System.err.println("Erro ao listar as turmas " + e.getMessage());
