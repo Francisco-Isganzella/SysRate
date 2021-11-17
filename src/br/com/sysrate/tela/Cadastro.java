@@ -51,7 +51,6 @@ public class Cadastro {
     private JPanel panelProfessor;
     private JPanel panelDisciplina;
     private JPanel panelCurso;
-    Boolean semestre = true;
     String curs[];
     int cursoID;
     int disciplinaID;
@@ -64,8 +63,6 @@ public class Cadastro {
     String disciplina;
     String curso;
     public Cadastro() throws SQLException{
-        JButton buttonSemestre;
-        JLabel labelSemestre = new JLabel();
         
         JTextField fieldNomeAluno;
         JTextField fieldMatricula;
@@ -103,32 +100,7 @@ public class Cadastro {
         paneltitulo = painel(0, 30, 1000, 30,"");
         paneltitulo.setBackground(Color.ORANGE);
         paneltitulo.add(label("CADASTROS E EXCLUSÕES", 360, 5, 300, 20, 20));
-        paneltitulo.add(buttonSemestre = new Button(640, 5, 152, 20, "Ativar avaliações", Color.gray, Color.white));
-        labelSemestre.setBounds(810, 5, 200, 20);
-        paneltitulo.add(labelSemestre);
         janela.getContentPane().add(paneltitulo);
-        
-        buttonSemestre.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                if (semestre == true) {
-                    semestre = false;
-                } else {
-                    semestre = true;
-                }
-                
-                if (semestre == true) {
-                    labelSemestre.setForeground(Color.red);
-                    labelSemestre.setText("AVALIAÇÕES DESATIVADAS");
-                    buttonSemestre.setText("Ativar avaliações");
-                } else {
-                    labelSemestre.setForeground(Color.black);
-                    labelSemestre.setText("AVALIAÇÕES ATIVADAS");
-                    buttonSemestre.setText("Desativar avaliações");
-                    
-                }
-            }
-        });
         
         panelCurso = new JPanel();
         panelCurso = painel(0, 60, 500, 230, "Curso");
@@ -555,11 +527,19 @@ public class Cadastro {
                 
                 Curso c = new Curso();
                 c.setCurso(tabelaProfessor.getValueAt(tabelaProfessor.getSelectedRow(), 3).toString());
+                
                 Disciplina d = new Disciplina();
                 d.setDisciplina(tabelaProfessor.getValueAt(tabelaProfessor.getSelectedRow(), 4).toString());
+                
                 Professor p = new Professor();
                 ProfessorDao pDao = new ProfessorDao();
+                DisciplinaDao dDao = new DisciplinaDao();
+                CursoDao cDao = new CursoDao();
                 try {
+                    c = cDao.pesquisarPorNome(c.getCurso());
+                    cursoID = c.getCursoID();
+                    d = dDao.pesquisaPorNome(d.getDisciplina());
+                    disciplinaID = d.getDisciplinaID();
                     p = pDao.pesquisarPorNome(tabelaProfessor.getValueAt(tabelaProfessor.getSelectedRow(), 1).toString());
                     professorID = p.getProfessorID();
                 } catch (SQLException ex) {
@@ -597,12 +577,21 @@ public class Cadastro {
             public void actionPerformed(ActionEvent e) {
                 Turma t = new Turma();
                 TurmaDao tDao = new TurmaDao();
+                Professor p = new Professor();
+                ProfessorDao pDao = new ProfessorDao();
+                Disciplina d = new Disciplina();
+                DisciplinaDao dDao = new DisciplinaDao();
                 
                 t.setTurma(fieldProfessorTurma.getText());
                 t.setVisivelTurma(false);
                 t.setTurmaID(turmaID);
-                
+                t.setDisciplinaID(disciplinaID);
+                t.setCursoID(cursoID);
+                p.setProfessorID(professorID);
+                p.setVisivelProfessor(Boolean.FALSE);
+                p.setNomeProfessor(fieldNomeProfessor.getText());
                 try {
+                    pDao.alterar(p);
                     tDao.alterar(t);
                 } catch (SQLException ex) {
                     System.err.println("Erro botao excluir professor\n"+ex.getMessage());
