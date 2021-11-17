@@ -88,7 +88,7 @@ public class InicioPaineis {
                 cabecalho.setPreferredSize(new Dimension(1000, 30));
                 cabecalho.setBackground(Color.LIGHT_GRAY);
 
-                JLabel nomeUsuario = new JLabel(/*if usuario tiver logado settext(nomeUser) else settext(null)*/"Nome Login");
+                JLabel nomeUsuario = new JLabel(/*if usuario tiver logado settext(nomeUser) else settext(null)*/"");
                 nomeUsuario.setBounds(710, 05, 120, 20);
 
                 JButton botaoLoginLogout = new JButton(/*if usuario tiver logado settext("Logout") else settext(Login) */ "Login");
@@ -173,22 +173,39 @@ public class InicioPaineis {
                 gbc.weighty = 0;
                 add(new JScrollPane(painelProf));
                 
-                
-                List<Professor> ListaProf = new ArrayList();
+                // NÃO DEIXAR COMENTADO <--------------
+                /*List<Professor> ListaProf = new ArrayList();
                 ProfessorDao pdao = new ProfessorDao();
                 try {
-                    ListaProf = pdao.listarProfessor();
-                    while (ListaProf.size() > painelProf.getComponentCount()) {        
-                        CriacaoPainel pane = new CriacaoPainel();
-                        int insertAt = Math.max(0, painelProf.getComponentCount() - 1);                    
-                        gbc.gridwidth = GridBagConstraints.REMAINDER;                    
-                        painelProf.add(pane, gbc, insertAt);
-                        painelProf.revalidate();
-                        painelProf.repaint();
+                ListaProf = pdao.listarProfessor();
+                while (ListaProf.size() > painelProf.getComponentCount()) {
+                CriacaoPainel pane = new CriacaoPainel();
+                int insertAt = Math.max(0, painelProf.getComponentCount() - 1);
+                gbc.gridwidth = GridBagConstraints.REMAINDER;
+                painelProf.add(pane, gbc, insertAt);
+                painelProf.revalidate();
+                painelProf.repaint();
                 }
                 } catch (SQLException ex) {
+                Logger.getLogger(InicioPaineis.class.getName()).log(Level.SEVERE, null, ex);
+                }*/ 
+                List<Turma> listaTurma = new ArrayList();
+                TurmaDao tDao = new TurmaDao();
+                try {
+                    listaTurma = tDao.listarTurmaInner();
+                        for (Turma t : listaTurma) {
+                            if (t.getVisivelTurma() == true) {
+                                CriacaoPainel pane = new CriacaoPainel();
+                                int insertAt = Math.max(0, painelProf.getComponentCount() - 1);                                
+                                gbc.gridwidth = GridBagConstraints.REMAINDER;                                
+                                painelProf.add(pane, gbc, insertAt);
+                                painelProf.revalidate();
+                                painelProf.repaint();
+                            }
+                    }
+                } catch (SQLException ex) {
                     Logger.getLogger(InicioPaineis.class.getName()).log(Level.SEVERE, null, ex);
-                } 
+                }
         }
     }       
                 
@@ -347,15 +364,16 @@ public class InicioPaineis {
                             System.out.println(String.valueOf(pdao.buscarNomeProfessorRetornaID(nomeProf.getText())));
                             setProfID(pdao.buscarNomeProfessorRetornaID(nomeProf.getText()));
                             Usuario usu = new Usuario();
-                            UsuarioDao usuDao = new UsuarioDao();                        
-                            usu = usuDao.pesquisarPorMatricula(Validacao.getValidaMatr());                          
-                            if (usu.getPermissao() == true){
-                                JOptionPane.showMessageDialog(null, "Administradores não podem fazer avaliações","Atenção",0);
+                            UsuarioDao usuDao = new UsuarioDao();
+                            usu = usuDao.pesquisarPorMatricula(Validacao.getValidaMatr());                      
+                            if (usu != null && Validacao.getValidaPermissao() == true){
+                                JOptionPane.showMessageDialog(null, "Administradores não podem fazer avaliações!","Atenção",2);
+                                new InicioPaineis();
                                 }
-                            else if (Validacao.getValidaOnline() == true) {
+                            else if (Validacao.getValidaOnline() == true && Validacao.getValidaPermissao() == false) {
                                 new PerfilResumo();                        
                             }
-                            else if (Validacao.getValidaOnline() == false){
+                            else if (Validacao.getValidaOnline() == false && Validacao.getValidaPermissao() == false){
                                 new LoginCadastro();                         
                             }                            
                         } catch (SQLException ex) {

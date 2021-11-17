@@ -160,12 +160,13 @@ public class LoginCadastro {
                                 Validacao.setValidaNome(usuario.getNomeUsuario());
                                 // MATRICULA
                                 Validacao.setValidaMatr(usuario.getMatricula());
-                                
+                                // PERMISSAO
+                                Validacao.setValidaPermissao(false);
                                 usuario.setSenha(fieldSenhaCadastro.getText());
                                 usuario.setAtivoOnline(true);
                                 uDao.alterar(usuario);  
                                 
-                                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!!!","Alteração Senha",1);
+                                JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!!!","Cadastro",1);
                                 System.out.println("Cadastro realizado com sucesso!!!");
                                 
                                 /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
@@ -244,7 +245,8 @@ public class LoginCadastro {
                                 Validacao.setValidaNome(usu.getNomeUsuario());
                                 // MATRICULA
                                 Validacao.setValidaMatr(usu.getMatricula());                               
-
+                                // VALIDACAO
+                                Validacao.setValidaPermissao(true);
                                 usuDao.alterar(usu);
                                 new Cadastro();
                                 LoginCadastro.this.janela.dispose();
@@ -267,7 +269,8 @@ public class LoginCadastro {
                                 Validacao.setValidaNome(usu.getNomeUsuario());
                                 // MATRICULA
                                 Validacao.setValidaMatr(usu.getMatricula());
-                                
+                                // PERMISSAO
+                                Validacao.setValidaPermissao(false);
                                 usuDao.alterar(usu);
                                 
                                 /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 

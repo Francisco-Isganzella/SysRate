@@ -49,7 +49,7 @@ public class SysRate {
         cabecalho.setBounds(0, 0, 1000, 30);
         cabecalho.setBackground(Color.LIGHT_GRAY);
         
-        JLabel nomeUsuario = new JLabel(/*if usuario tiver logado settext(nomeUser) else settext(null)*/"Nome Login");
+        JLabel nomeUsuario = new JLabel(/*if usuario tiver logado settext(nomeUser) else settext(null)*/"");
         nomeUsuario.setBounds(710, 05, 120, 20);
         
         JButton botaoLoginLogout = new JButton(/*if usuario tiver logado settext("Logout") else settext(Login) */ "Login");
@@ -106,6 +106,8 @@ public class SysRate {
                         
                         u.setUsuarioID(Validacao.getValidaID());
                         uDao.alterarLogin(u);
+                        
+                        Validacao.setValidaPermissao(Boolean.FALSE);
                         
                         new InicioPaineis();
                         janela.setVisible(false);

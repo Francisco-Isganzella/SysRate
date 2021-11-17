@@ -91,10 +91,12 @@ public class ProfessorDao {
             while (resultSet.next()) {                
                 Professor p = new Professor();
                 p.setProfessorID(resultSet.getInt("professorID"));
+                p.setVisivelProfessor(resultSet.getBoolean("visivelProfessor"));
                 listaProfessor.add(p);
+                
             }
         } catch (SQLException e) {
-            System.err.println("Erro ao listar os turmas" + e.getMessage());
+            System.err.println("Erro ao listar os professores" + e.getMessage());
         } finally {
             FabricaConexao.fecharConexao(conexao, preparando, resultSet);
         }

@@ -845,7 +845,7 @@ public class Cadastro {
                 lista_turma = tDaoL.listarTurmaInner();
                 if (!lista_turma.isEmpty()) {
                     for (Turma t : lista_turma) {
-                        if (t.getVisivelTurma()) {
+                        if (t.getVisivelTurma() == true) {
                                 tabelaModelo.addRow(new Object[]{t.getTurmaID(), t.getNomeProfessor(),
                                     t.getTurma(), t.getCurso(), t.getDisciplina(),t.getProfessorID()
                                 });
