@@ -6,7 +6,6 @@
 package br.com.sysrate.dao;
 
 import br.com.sysrate.entidade.Curso;
-import br.com.sysrate.entidade.Professor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -44,7 +43,7 @@ public class CursoDao {
     public Curso pesquisarPorNome(String nome) throws SQLException{
         Curso curso = null;
         String consulta = "SELECT * FROM curso c "
-                + "WHERE c.curso = ?";
+                        + "WHERE curso = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
@@ -67,7 +66,7 @@ public class CursoDao {
     
     public List<Curso> listarCurso() throws SQLException{
         List<Curso> listaCurso = new ArrayList<Curso>();
-        String consulta = "SELECT * FROM Curso c ORDER BY c.curso";
+        String consulta = "SELECT * FROM Curso c ORDER BY curso";
         
         try {
             conexao = FabricaConexao.abrirConexao();
@@ -107,7 +106,7 @@ public class CursoDao {
     
     public Curso pesquisarPorId(Integer id) throws SQLException {
         Curso curso = null;
-        String consulta = "SELECT * FROM Curso c WHERE c.cursoID = ?";
+        String consulta = "SELECT * FROM Curso c WHERE cursoID = ?";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
@@ -130,11 +129,11 @@ public class CursoDao {
     public String buscarNomeCurso(String nomeProfessor) throws SQLException{
         Curso curso = null;
         String nomeCurso = "";
-        String consulta = "SELECT c.curso" +
+        String consulta = "SELECT curso" +
                           " FROM (Turma t INNER JOIN Curso c ON t.cursoID = c.cursoID)" +
                           " INNER JOIN Professor p ON t.professorID = p.professorID" +
                           " WHERE p.nomeProfessor = ?" +
-                          " GROUP BY c.curso";
+                          " GROUP BY curso";
         try {
             conexao = FabricaConexao.abrirConexao();
             preparando = conexao.prepareStatement(consulta);
@@ -150,4 +149,27 @@ public class CursoDao {
         }
         return nomeCurso;
     }
+    
+    public Curso pesquisarCursoPorProfessorID(Integer professorID) throws SQLException {
+        Curso curso = null;
+        String consulta = "SELECT c.cursoID, c.curso, c.visivelCurso FROM Curso c INNER JOIN Turma t on t.cursoID = c.cursoID WHERE t.professorID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setInt(1, professorID);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                curso = new Curso();
+                curso.setCursoID(resultSet.getInt("cursoID"));
+                curso.setCurso(resultSet.getString("curso"));
+                curso.setVisivelCurso(resultSet.getBoolean("visivelCurso"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao pesquisar curso por id\n" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+        return curso;
+    }
+    
 }

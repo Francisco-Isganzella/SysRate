@@ -85,8 +85,12 @@ public class TurmaDao {
                 t.setDisciplina(resultSet.getString("d.disciplina"));
                 t.setCurso(resultSet.getString("c.curso"));
                 t.setVisivelTurma(resultSet.getBoolean("visivelTurma"));
+                t.setVisivelCurso(resultSet.getBoolean("c.visivelCurso"));
+                t.setVisivelDisciplina(resultSet.getBoolean("d.visivelDisciplina"));
+                if (t.getVisivelCurso()== true && t.getVisivelDisciplina() == true) {
+                    listaTurma.add(t);
+                }
                 
-                listaTurma.add(t);
             }
         } catch (SQLException e) {
             System.err.println("Erro ao listar as turmas " + e.getMessage());
@@ -114,25 +118,5 @@ public class TurmaDao {
             FabricaConexao.fecharConexao(conexao, preparando);
         }
     }
-    
-//BUSCAR NOME /CURSO
-//public String buscarNomeProfessor(Integer professorID) throws SQLException{
-//        String nomeProfessor = "";
-//        String consulta = "SELECT p.nomeProfessor FROM turma t INNER JOIN professor p on p.professorID = t.professorID WHERE p.professorID = ?";
-//        try {
-//            conexao = FabricaConexao.abrirConexao();
-//            preparando = conexao.prepareStatement(consulta);
-//            preparando.setInt(1, professorID);
-//            resultSet = preparando.executeQuery();
-//            while (resultSet.next()) {
-//                Turma t = new Turma();
-//                t.setNomeProfessor(resultSet.getString("p.nomeProfessor"));
-//            }
-//        } catch (SQLException e) {
-//            System.err.println("Erro ao listar as turmas " + e.getMessage());
-//        } finally {
-//            FabricaConexao.fecharConexao(conexao, preparando, resultSet);
-//        }
-//        return null;
-//    }    
+      
 }

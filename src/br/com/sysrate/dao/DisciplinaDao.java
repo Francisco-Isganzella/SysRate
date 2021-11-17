@@ -6,7 +6,6 @@
 package br.com.sysrate.dao;
 
 import br.com.sysrate.entidade.Disciplina;
-import br.com.sysrate.entidade.Professor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -105,6 +104,28 @@ public class DisciplinaDao {
         }
     }
     
+    public Disciplina pesquisarPorId(Integer id) throws SQLException {
+        Disciplina disciplina = null;
+        String consulta = "SELECT * FROM Disciplina d WHERE d.disciplinaID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setInt(1, id);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                disciplina = new Disciplina();
+                disciplina.setDisciplinaID(resultSet.getInt("disciplinaID"));
+                disciplina.setDisciplina(resultSet.getString("disciplina"));
+                disciplina.setVisivelDisciplina(resultSet.getBoolean("visivelDisciplina"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao pesquisar disciplina por id\n" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+        return disciplina;
+    }
+    
     public String buscarDisciplina (Integer professorID) throws SQLException{
         Disciplina disciplina = null;
         //Professor professor = null;
@@ -147,10 +168,27 @@ public class DisciplinaDao {
         }
         return listaDisciplinaProf;
     }
+    
+    public Disciplina pesquisarDisciplinaPorProfessorID(Integer professorID) throws SQLException {
+        Disciplina disciplina = null;
+        String consulta = "SELECT * FROM Disciplina d INNER JOIN Turma t on d.disciplinaID = t.disciplinaID WHERE t.professorID = ?";
+        try {
+            conexao = FabricaConexao.abrirConexao();
+            preparando = conexao.prepareStatement(consulta);
+            preparando.setInt(1, professorID);
+            resultSet = preparando.executeQuery();
+            if (resultSet.next()) {
+                disciplina = new Disciplina();
+                disciplina.setDisciplinaID(resultSet.getInt("disciplinaID"));
+                disciplina.setDisciplina(resultSet.getString("disciplina"));
+                disciplina.setVisivelDisciplina(resultSet.getBoolean("visivelDisciplina"));
+            }
+        } catch (SQLException e) {
+            System.err.println("Erro ao pesquisar disciplina por id\n" + e.getMessage());
+        } finally {
+            FabricaConexao.fecharConexao(conexao, preparando);
+        }
+        return disciplina;
+    }
 
-//    @Override
-//    public String toString()
-//    {
-//        return buscarDisciplinaProf().toString();
-//    }
 }
