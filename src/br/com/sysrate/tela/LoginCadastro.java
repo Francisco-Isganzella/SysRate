@@ -16,13 +16,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 import javax.swing.event.MouseInputListener;
 
 
@@ -59,6 +62,11 @@ public class LoginCadastro {
         JButton buttonEntrar;
         JButton buttonCancelarLogin;
         
+        JLabel labelDicaSenha = new JLabel("?");
+        labelDicaSenha.setBounds(405, 112, 90, 30);
+        labelDicaSenha.setForeground(Color.DARK_GRAY);
+        labelDicaSenha.setFont(new Font(null,Font.BOLD,16));
+        
         JLabel labelAlterarSenha = new JLabel("Alterar Senha");
         labelAlterarSenha.setBounds(40, 550, 140, 20);
         labelAlterarSenha.setForeground(Color.LIGHT_GRAY);
@@ -89,6 +97,7 @@ public class LoginCadastro {
         panelCadastro.add(fieldConfirmacaoSenhaCadastro = new PasswordField(190, 170, 200, 20));
         panelCadastro.add(buttonCadastrarse = new Button(110, 215, 120, 30, "Cadastrar-se", Color.DARK_GRAY, Color.WHITE));
         panelCadastro.add(buttonCancelarCadastro = new Button(260, 215, 90, 30, "Cancelar", Color.GRAY, Color.WHITE));
+        panelCadastro.add(labelDicaSenha);
         panelCadastro.add(labelErroCadastro);
        
         panelLogin = new JPanel();
@@ -96,7 +105,7 @@ public class LoginCadastro {
         panelLogin = painel(500, 0, 500, 650, "");
         panelLogin.setBackground(Color.DARK_GRAY);
         panelLogin.add(label("Login", 210, 200, 100, 45, 35, Color.WHITE));
-        panelLogin.add(label("Matrícula", 120, 280, 100, 20, 16, Color.WHITE));
+        panelLogin.add(label("Matrícula", 125, 280, 100, 20, 16, Color.WHITE));
         panelLogin.add(fieldMatriculaLogin = new Field(210, 280, 160, 20));
         panelLogin.add(label("Senha", 130, 330, 100, 20, 16, Color.WHITE));
         panelLogin.add(fieldSenhaLogin = new PasswordField(210, 330, 160, 20));
@@ -108,6 +117,72 @@ public class LoginCadastro {
         Usuario usuario = new Usuario();
         
         UsuarioDao uDao = new UsuarioDao();
+        
+        labelDicaSenha.addMouseListener(new MouseInputListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                //JOptionPane.showOptionDialog(null, "Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúscula\n" + "1 Número\n" + "1 Caractere especial","Requisitos Senha",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, new Object[]{}, null);
+                
+                JOptionPane optionPane = new JOptionPane("Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúscula\n" + "1 Número\n" + "1 Caractere especial", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
+               
+                JDialog dialog = new JDialog();
+                dialog.setTitle("Requisitos Senha");
+                dialog.setModal(true);
+
+                dialog.setContentPane(optionPane);
+                dialog.setLocation(570, 330);
+                dialog.pack();
+                
+                Timer timer  = new Timer(5000, new AbstractAction() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        dialog.dispose();
+                    }
+                });
+                
+                timer.setRepeats(false);
+                
+                timer.start();
+                
+                dialog.setVisible(true);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                labelDicaSenha.setToolTipText("Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúsculas\n" + "1 Número\n" + "1 Caractere especial");
+            }
+        });
         
         buttonCadastrarse.addActionListener(new ActionListener() {
             @Override

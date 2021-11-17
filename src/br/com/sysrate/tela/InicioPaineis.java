@@ -295,12 +295,12 @@ public class InicioPaineis {
                 //PAINEL CONTENDO AS NOTAS
                 JPanel PainelNotas = new JPanel();
                 PainelNotas.setLayout(null);
-                PainelNotas.setBounds(590, 10, 300, 100);
+                PainelNotas.setBounds(570, 10, 300, 100);
                 PainelNotas.setBackground(Color.GRAY);
 //                PainelNotas.setForeground(Color.black);
                 
                 JLabel didatica = new JLabel("Didática");
-                didatica.setBounds(0,0,200,20);
+                didatica.setBounds(10,0,200,20);
                 didatica.setFont(fonteNotas);
                 PainelNotas.add(didatica);
                 JLabel didaticaNota = new JLabel();
@@ -309,7 +309,7 @@ public class InicioPaineis {
                 didaticaNota.setText((ndao.buscarMediaDidatica(i)));
                 
                 JLabel qualidadeMaterial = new JLabel("Qualidade do Material");
-                qualidadeMaterial.setBounds(0,20,200,20);
+                qualidadeMaterial.setBounds(10,20,200,20);
                 qualidadeMaterial.setFont(fonteNotas);
                 PainelNotas.add(qualidadeMaterial);
                 JLabel qualidadeMaterialNota = new JLabel();
@@ -319,7 +319,7 @@ public class InicioPaineis {
 
                 
                 JLabel qualidadeCorrecao = new JLabel("Qualidade da Correção");
-                qualidadeCorrecao.setBounds(0,40,200,20);
+                qualidadeCorrecao.setBounds(10,40,200,20);
                 qualidadeCorrecao.setFont(fonteNotas);
                 PainelNotas.add(qualidadeCorrecao);
                 JLabel qualidadeCorrecaoNota = new JLabel();
@@ -329,7 +329,7 @@ public class InicioPaineis {
 
                 
                 JLabel receptividade = new JLabel("Receptividade");
-                receptividade.setBounds(0,60,200,20);
+                receptividade.setBounds(10,60,200,20);
                 receptividade.setFont(fonteNotas);
                 PainelNotas.add(receptividade);
                 JLabel receptividadeNota = new JLabel();
@@ -339,7 +339,7 @@ public class InicioPaineis {
 
                 
                 JLabel respeito = new JLabel("Respeito");
-                respeito.setBounds(0,80,200,20);
+                respeito.setBounds(10,80,200,20);
                 respeito.setFont(fonteNotas);
                 PainelNotas.add(respeito);
                 JLabel respeitoNota = new JLabel();
