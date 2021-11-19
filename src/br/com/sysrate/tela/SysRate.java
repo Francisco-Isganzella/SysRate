@@ -136,7 +136,8 @@ public class SysRate {
     }
     
     public static void main(String[] args) throws SQLException{
-        new InicioPaineis();
+        //new InicioPaineis();
+        new Inicio();
     }
     
 }
