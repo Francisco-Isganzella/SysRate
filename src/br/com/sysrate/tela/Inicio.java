@@ -76,7 +76,6 @@ public class Inicio {
             listaTurma = tDao.listarTurmaInner();
             for (Turma t : listaTurma) {
                 if (t.getVisivelTurma() == true && t.getVisivelProfessor()==true) {
-                    System.out.println(t.getNomeProfessor());
                     
                     NotasDao ndao = new NotasDao();
                     Notas n = new Notas();
@@ -104,8 +103,8 @@ public class Inicio {
         painelProfessor.setBackground(Color.GRAY);
 
         //IMAGEM PROF
-        //ImageIcon imagemProf = new ImageIcon(getClass().getResource("icons_prof.png"));
-        ImageIcon imagemProf = new ImageIcon(getClass().getResource("profSidney80x80.png"));
+        ImageIcon imagemProf = new ImageIcon(getClass().getResource("icons_prof.png"));
+        //ImageIcon imagemProf = new ImageIcon(getClass().getResource("profSidney80x80.png"));
         JLabel imagemP = new JLabel(imagemProf);
         imagemP.setBounds(20, 3, 100, 100);
         imagemP.setBackground(Color.BLACK);
@@ -115,7 +114,7 @@ public class Inicio {
         Font fonteNomeCurso = new Font("",Font.PLAIN, 12);
         Font fonteDisciplinas = new Font("", Font.PLAIN,12);
         Font fonteNotas = new Font("",Font.BOLD,12);
-
+        
         //NOME PROF
         JLabel labelNomeProf = new JLabel(nomeProf);
         labelNomeProf.setBounds(140, 20, 700, 25);
@@ -150,7 +149,7 @@ public class Inicio {
         PainelNotas.setBackground(Color.GRAY);
 //      PainelNotas.setForeground(Color.black);
         //NOTA DIDÁTICA
-        JLabel didatica = new JLabel("Didática");
+        JLabel didatica = new JLabel("DIDÁTICA");
         didatica.setBounds(10,0,200,20);
         didatica.setFont(fonteNotas);
         PainelNotas.add(didatica);
@@ -158,7 +157,7 @@ public class Inicio {
         didaticaNota.setBounds(200, 0, 50, 20);
         PainelNotas.add(didaticaNota);
         //NOTA QUALIDADE DO MATERIAL
-        JLabel qualidadeMaterial = new JLabel("Qualidade do Material");
+        JLabel qualidadeMaterial = new JLabel("QUALIDADE DO MATERIAL");
         qualidadeMaterial.setBounds(10,20,200,20);
         qualidadeMaterial.setFont(fonteNotas);
         PainelNotas.add(qualidadeMaterial);
@@ -166,7 +165,7 @@ public class Inicio {
         qualidadeMaterialNota.setBounds(200, 20, 50, 20);
         PainelNotas.add(qualidadeMaterialNota);
         //NOTA QUALIDADE DA CORREÇÃO
-        JLabel qualidadeCorrecao = new JLabel("Qualidade da Correção");
+        JLabel qualidadeCorrecao = new JLabel("QUALIDADE DA CORREÇÃO");
         qualidadeCorrecao.setBounds(10,40,200,20);
         qualidadeCorrecao.setFont(fonteNotas);
         PainelNotas.add(qualidadeCorrecao);
@@ -174,7 +173,7 @@ public class Inicio {
         qualidadeCorrecaoNota.setBounds(200, 40, 50, 20);
         PainelNotas.add(qualidadeCorrecaoNota);
         //NOTA RECEPTIVIDADE
-        JLabel receptividade = new JLabel("Receptividade");
+        JLabel receptividade = new JLabel("RECEPTIVIDADE");
         receptividade.setBounds(10,60,200,20);
         receptividade.setFont(fonteNotas);
         PainelNotas.add(receptividade);
@@ -182,7 +181,7 @@ public class Inicio {
         receptividadeNota.setBounds(200, 60, 50, 20);
         PainelNotas.add(receptividadeNota);
         //NOTA RESPEITO
-        JLabel respeito = new JLabel("Respeito");
+        JLabel respeito = new JLabel("RESPEITO");
         respeito.setBounds(10,80,200,20);
         respeito.setFont(fonteNotas);
         PainelNotas.add(respeito);
