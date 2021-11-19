@@ -84,6 +84,8 @@ public class TurmaDao {
                 t.setTurma(resultSet.getString("turma"));
                 t.setDisciplina(resultSet.getString("d.disciplina"));
                 t.setCurso(resultSet.getString("c.curso"));
+                t.setProfessorID(resultSet.getInt("p.professorID"));
+                t.setVisivelProfessor(resultSet.getBoolean("p.visivelProfessor"));
                 t.setVisivelTurma(resultSet.getBoolean("visivelTurma"));
                 t.setVisivelCurso(resultSet.getBoolean("c.visivelCurso"));
                 t.setVisivelDisciplina(resultSet.getBoolean("d.visivelDisciplina"));

@@ -215,10 +215,9 @@ public class PerfilResumo {
         
         
         try {
-            c = cDao.pesquisarCursoPorProfessorID(InicioPaineis.getProfID()); // trocar por: InicioPaineis.getProfID() que retorna o professorID do painel selecionado
-            p = pDao.pesquisarPorId(InicioPaineis.getProfID()); // trocar por: InicioPaineis.getProfID()
-            d = dDao.pesquisarDisciplinaPorProfessorID(InicioPaineis.getProfID()); // trocar por: InicioPaineis.getProfID()
-            
+            c = cDao.pesquisarCursoPorProfessorID(Inicio.getProfID()); 
+            p = pDao.pesquisarPorId(Inicio.getProfID()); 
+            d = dDao.pesquisarDisciplinaPorProfessorID(Inicio.getProfID()); 
         } catch (SQLException ex) {
             System.err.println("Erro pesquisar por ID: "+ex.getMessage());
         }
@@ -236,7 +235,7 @@ public class PerfilResumo {
                 
                 Notas n = new Notas();
                 NotasDao nDao = new NotasDao();
-                n.setProfessorID(InicioPaineis.getProfID());
+                n.setProfessorID(Inicio.getProfID());
                 try {
                     
                 if (!(radioDidatica1.isSelected() || radioDidatica2.isSelected() || radioDidatica3.isSelected() || radioDidatica4.isSelected() || radioDidatica5.isSelected())){
@@ -277,7 +276,7 @@ public class PerfilResumo {
                     JOptionPane.showMessageDialog(null, "Avaliação realizada com sucesso!!!","Avaliação",1);
                                 System.out.println("Avaliação realizada com sucesso!!!");
                     janela.setVisible(false);
-                    new InicioPaineis();
+                    new Inicio();
                 }
                     
                 } catch (SQLException x) {

@@ -8,9 +8,12 @@ package br.com.sysrate.tela;
 import br.com.sysrate.dao.UsuarioDao;
 import br.com.sysrate.entidade.Usuario;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -134,7 +137,18 @@ public class SysRate {
     }
     
     public static void main(String[] args) throws SQLException{
-        new Inicio();
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    new Inicio();
+                } catch (SQLException ex) {
+                    Logger.getLogger(SysRate.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }
+        });
+
     }
     
 }

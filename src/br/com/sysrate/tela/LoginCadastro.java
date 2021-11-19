@@ -246,7 +246,7 @@ public class LoginCadastro {
                                 
                                 /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
                                 professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
-                                new InicioPaineis();
+                                new Inicio();
                                 LoginCadastro.this.janela.dispose();
                                 //fechar janela
                             } 
@@ -351,7 +351,7 @@ public class LoginCadastro {
                                 /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
                                 professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
                                 
-                                new InicioPaineis();
+                                new Inicio();
                                 LoginCadastro.this.janela.dispose();
                                 
                                 System.out.println("Permissão: " + validaPermissao);
