@@ -11,8 +11,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +29,6 @@ public class SysRate {
     public SysRate(){
    
         janela();
-        //janela.setVisible(true);    
     }
     
     public JFrame janela(){
@@ -43,6 +40,7 @@ public class SysRate {
         janela.setLayout(null);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setResizable(false);
+        
         
         JPanel cabecalho = new JPanel();
         cabecalho.setLayout(null);
@@ -80,7 +78,7 @@ public class SysRate {
                 
                 try {
                     janela.setVisible(false);
-                    new InicioPaineis();
+                    new Inicio();
                     
                 } catch (SQLException ex) {
                     System.err.println("erro botaoHome:"+ex.getMessage());
@@ -109,7 +107,7 @@ public class SysRate {
                         
                         Validacao.setValidaPermissao(Boolean.FALSE);
                         
-                        new InicioPaineis();
+                        new Inicio();
                         janela.setVisible(false);
                         
                     } else {
@@ -136,7 +134,7 @@ public class SysRate {
     }
     
     public static void main(String[] args) throws SQLException{
-        new InicioPaineis();
+        new Inicio();
     }
     
 }
