@@ -223,8 +223,8 @@ public class PerfilResumo {
         }
         
         labelNomeProfessor.setText(p.getNomeProfessor());
-        labelNomeDisciplina.setText(d.getDisciplina());
-        labelNomeCurso.setText(c.getCurso());
+        labelNomeDisciplina.setText("Disciplina: "+d.getDisciplina());
+        labelNomeCurso.setText("Curso: "+c.getCurso());
         
         buttonSalvar.addActionListener(new ActionListener() {
             @Override

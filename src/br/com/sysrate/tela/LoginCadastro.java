@@ -224,7 +224,7 @@ public class LoginCadastro {
                             
                             if (!(LoginCadastro.validaCaracteresEspeciais(fieldSenhaCadastro.getText()))) {
                                 System.err.println("ERRO CADASTRO: Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúsculas\n" + "1 Número\n" + "1 Caractere especial");
-                                JOptionPane.showMessageDialog(null, "Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúsculas\n" + "1 Número\n" + "1 Caractere especial","Erro",1);
+                                JOptionPane.showMessageDialog(null, "Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúsculas\n" + "1 Número\n" + "1 Caractere especial","Erro",2);
                             
                             }else {
                                 // USUARIO ID   
@@ -244,11 +244,19 @@ public class LoginCadastro {
                                 JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso!!!","Cadastro",1);
                                 System.out.println("Cadastro realizado com sucesso!!!");
                                 
-                                /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
-                                professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
-                                new Inicio();
-                                LoginCadastro.this.janela.dispose();
-                                //fechar janela
+                                if (Inicio.getProfID() <= 0) {
+
+                                    new Inicio();
+                                    
+                                    //fechar janela
+                                    LoginCadastro.this.janela.dispose();
+                                    
+                                } else {
+                                    new PerfilResumo().equals(Inicio.getProfID());
+                                    
+                                    //fechar janela
+                                    LoginCadastro.this.janela.dispose();
+                                }
                             } 
                         }else{
                             System.err.println("ERRO CADASTRO: Clicar no botão Alterar Senha");
@@ -323,6 +331,7 @@ public class LoginCadastro {
                                 // VALIDACAO
                                 Validacao.setValidaPermissao(true);
                                 usuDao.alterar(usu);
+                                
                                 new Cadastro();
                                 LoginCadastro.this.janela.dispose();
                                 
@@ -351,8 +360,21 @@ public class LoginCadastro {
                                 /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
                                 professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
                                 
-                                new Inicio();
-                                LoginCadastro.this.janela.dispose();
+                                if (Inicio.getProfID() <= 0) {
+
+                                    /*caso de certo o encapsulamento do professorID fazer o login direto na tela de avaliação desse 
+                                professor, caso tenha sido clicado no botao avaliar na tela da tayna*/
+                                    new Inicio();
+                                    
+                                    //fechar janela
+                                    LoginCadastro.this.janela.dispose();
+                                    
+                                } else {
+                                    new PerfilResumo().equals(Inicio.getProfID());
+                                    
+                                    //fechar janela
+                                    LoginCadastro.this.janela.dispose();
+                                }
                                 
                                 System.out.println("Permissão: " + validaPermissao);
                             } else {
