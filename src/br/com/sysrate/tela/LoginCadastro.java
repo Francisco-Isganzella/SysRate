@@ -68,7 +68,7 @@ public class LoginCadastro {
         labelDicaSenha.setFont(new Font(null,Font.BOLD,16));
         
         JLabel labelAlterarSenha = new JLabel("Alterar Senha");
-        labelAlterarSenha.setBounds(40, 550, 140, 20);
+        labelAlterarSenha.setBounds(40, 550, 140, 30);
         labelAlterarSenha.setForeground(Color.LIGHT_GRAY);
         labelAlterarSenha.setFont(new Font(null,Font.BOLD,16));
         
@@ -122,25 +122,6 @@ public class LoginCadastro {
             @Override
             public void mouseClicked(MouseEvent e) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                //JOptionPane.showOptionDialog(null, "Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúscula\n" + "1 Número\n" + "1 Caractere especial","Requisitos Senha",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, new Object[]{}, null);
-                
                 JOptionPane optionPane = new JOptionPane("Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúscula\n" + "1 Número\n" + "1 Caractere especial", JOptionPane.INFORMATION_MESSAGE, JOptionPane.DEFAULT_OPTION, null, new Object[]{}, null);
                
                 JDialog dialog = new JDialog();
@@ -166,9 +147,28 @@ public class LoginCadastro {
             }
 
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void mousePressed(MouseEvent e) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
                 
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                //JOptionPane.showOptionDialog(null, "Senha deve conter no mínimo:\n\n" + "6 caracteres\n" + "1 Letra maiúscula\n" + "1 Letra minúscula\n" + "1 Número\n" + "1 Caractere especial","Requisitos Senha",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null, new Object[]{}, null);
+                
+                labelDicaSenha.setFont(new Font(null,Font.BOLD,25));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                labelDicaSenha.setFont(new Font(null,Font.BOLD,16));
             }
 
             @Override
@@ -514,11 +514,13 @@ public class LoginCadastro {
             @Override
             public void mouseEntered(MouseEvent e) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                labelAlterarSenha.setFont(new Font(null,Font.BOLD,18));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                labelAlterarSenha.setFont(new Font(null,Font.BOLD,16));
             }
 
             @Override
